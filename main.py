@@ -17,6 +17,7 @@ pygame.display.set_caption("Swamphacks Game")
 
 # Menu BG
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
+GAME_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "castle.JPEG")), (WIDTH, HEIGHT))
 
 # colors
 white = (255, 255, 255)
@@ -50,7 +51,8 @@ def main():
     def redraw_window():  # We can only access it within the main, but it has access to locals
         # BASE LAYER
         # Background must be drawn first so it is on the lowest level
-        WINDOW.fill(black)  # anything that you want consistent in the game window should be added within the loop
+        WINDOW.blit(GAME_BG, (0,0))  # anything that you want consistent in the game window should be added within the
+        # loop
 
         # Creates text
         sample_label = main_font.render(f"Sample Text", 1, white)  # Draws text (item, 1, color)

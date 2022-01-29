@@ -6,10 +6,10 @@ import helper
 # Loads images
 # !! FOR NOW, GREEN = DEFENDERS and BLUE = ATTACKERS
 GREEN_DRAGON_1 = pygame.image.load(os.path.join("images", "gdrag1.png"))
-GREEN_DRAGON_1 = pygame.transform.scale(GREEN_DRAGON_1, (60, 60))
+GREEN_DRAGON_1 = pygame.transform.scale(GREEN_DRAGON_1, (80, 80))
 GREEN_DRAGON_2 = pygame.image.load(os.path.join("images", "gdrag2.png"))
 BLUE_DRAGON_1 = pygame.image.load(os.path.join("images", "bdrag1.png"))
-BLUE_DRAGON_1 = pygame.transform.scale(BLUE_DRAGON_1, (60, 60))
+BLUE_DRAGON_1 = pygame.transform.scale(BLUE_DRAGON_1, (80, 80))
 BLUE_DRAGON_2 = pygame.image.load(os.path.join("images", "bdrag2.png"))
 
 
@@ -35,7 +35,7 @@ class Fighter:
 
 
 class Attacker(Fighter):
-    def __init__(self, x=-20, y=375, hp=100, move_delay=300):
+    def __init__(self, x=-20, y=450, hp=100, move_delay=300):
         super().__init__(x, y)
         self.max_hp = hp
         self.hp = hp
@@ -96,7 +96,7 @@ class Attacker(Fighter):
 
 
 class Defender(Fighter):
-    def __init__(self, x=370, y=250, atk=20, atk_delay=2, range=200):
+    def __init__(self, x=370, y=300, atk=20, atk_delay=2, range=200):
         super().__init__(x, y)
         self.atk = atk
         self.range = range
