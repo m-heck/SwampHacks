@@ -1,5 +1,4 @@
 import pygame
-
 # ======================= SETUP =======================
 
 # initializes pygame
