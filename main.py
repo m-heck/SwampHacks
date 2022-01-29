@@ -60,14 +60,14 @@ def main():
         WINDOW.blit(sample_label, (10, 10))  # Draws the text
 
         # DRAWS THE FIGHTERS
-        for attacker in attackers:
+        for attacker in mystate.enemylist:
             attacker.draw(WINDOW)
-        for defender in defenders:
+        for defender in mystate.defenderlist:
             defender.draw(WINDOW)
 
         # DRAWS THE CASTLE
-        castle.draw(WINDOW)
-        #mystate.currentcastle.draw(WINDOW)
+        #castle.draw(WINDOW)
+        mystate.currentcastle.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
