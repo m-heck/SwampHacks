@@ -48,8 +48,6 @@ def main():
     # castle = Castle()
     # Call the castle object in gamestate by doing mystate.currentcastle
 
-
-
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========

@@ -2,6 +2,7 @@
 import pygame
 import os
 import helper
+import random
 
 # Loads images
 # !! FOR NOW, GREEN = DEFENDERS and BLUE = ATTACKERS
@@ -33,9 +34,15 @@ class Fighter:
     def get_alive(self):
         return self.alive
 
+    def get_width(self):
+        return self.img.get_width()
+
+    def get_height(self):
+        return self.img.get_height()
+
 
 class Attacker(Fighter):
-    def __init__(self, x=-20, y=450, hp=100, move_delay=300):
+    def __init__(self, x=0, y=450, hp=100, move_delay=300):
         super().__init__(x, y)
         self.max_hp = hp
         self.hp = hp
@@ -46,6 +53,12 @@ class Attacker(Fighter):
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
         self.healthbar(window)
+
+    def get_center_x(self):
+        return self.x + self.img.get_width() / 2
+
+    def get_center_y(self):
+        return self.y + self.img.get_height() / 2
 
     # MOVEMENT METHODS
     def move_right(self, steps, window_width):
@@ -96,7 +109,7 @@ class Attacker(Fighter):
 
 
 class Defender(Fighter):
-    def __init__(self, x=370, y=300, atk=20, atk_delay=2, range=200):
+    def __init__(self, x=370, y=300, atk=5, atk_delay=2, range=200, accuracy=80):
         super().__init__(x, y)
         self.atk = atk
         self.range = range
@@ -105,11 +118,19 @@ class Defender(Fighter):
         self.cool_down_counter = 0
         self.arrows = []
         self.mask = pygame.mask.from_surface(self.img)
+        self.accuracy = accuracy
 
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
+        self.attack_radius(window)
         for arrow in self.arrows:
             arrow.draw(window)
+
+    def get_center_x(self):
+        return self.x + self.img.get_width() / 2
+
+    def get_center_y(self):
+        return self.y + self.img.get_height() / 2
 
     def cool_down_caller(self):
         if self.cool_down_counter >= self.cooldown:
@@ -120,6 +141,10 @@ class Defender(Fighter):
     def attack(self, attackers):
         if self.cool_down_counter == 0:
             closest_attacker = helper.find_closest(self, attackers)
-            if helper.find_distance(self, closest_attacker) < self.range:
-                closest_attacker.take_damage(self.atk)
-                self.cool_down_counter = 1
+            if random.randint(0, 100) <= self.accuracy:
+                if helper.find_distance(self, closest_attacker) < self.range:
+                    closest_attacker.take_damage(self.atk)
+                    self.cool_down_counter = 1
+
+    def attack_radius(self, window):
+        pygame.draw.circle(window, (128, 0, 0), (self.get_center_x(), self.get_center_y()), self.range, 2)
