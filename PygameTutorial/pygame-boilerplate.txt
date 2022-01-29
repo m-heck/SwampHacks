@@ -1,0 +1,26 @@
+import pygame
+
+# ======================= SETUP =======================
+
+# initializes pygame
+pygame.init()
+
+# creates the screen
+screen = pygame.display.set_mode((800, 600))  # tuple is double parentheses
+
+# title and icon (flaticon.com for image, use 32px images)
+pygame.display.set_caption("Space Invaders")
+icon = pygame.image.load('spaceship.png')
+pygame.display.set_icon(icon)
+
+# event: anything happening inside the game window (e.g. arrow keys, mouse)
+# making a quit event when close button is pressed
+# game loop
+running = True
+while running:
+    for event in pygame.event.get():  # looping through all the events in the game window
+        if event.type == pygame.QUIT:  # checks if the game is quit and ends loop if so
+            running = False
+
+    screen.fill((0, 0, 0))  # anything that you want consistent in the game window should be added within the loop
+    pygame.display.update()  # continually updates the window
