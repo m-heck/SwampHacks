@@ -15,6 +15,12 @@ pygame.display.set_caption("Swamphacks Game")
 #Menu BG
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
 
+#colors
+white = (255, 255, 255)
+red = (255, 0, 0)
+orange = (255, 100, 0)
+black = (0, 0, 0)
+
 def main():
     # VARIABLES
     run = True  # Dictates whether the while loop will run or not
@@ -30,10 +36,10 @@ def main():
     def redraw_window():  # We can only access it within the main, but it has access to locals
         # BASE LAYER
         # Background must be drawn first so it is on the lowest level
-        WINDOW.fill((0, 0, 0))  # anything that you want consistent in the game window should be added within the loop
+        WINDOW.fill(black)  # anything that you want consistent in the game window should be added within the loop
 
         # Creates text
-        sample_label = main_font.render(f"Sample Text", 1, (255, 255, 255))  # Draws text (item, 1, color)
+        sample_label = main_font.render(f"Sample Text", 1, white)  # Draws text (item, 1, color)
 
         WINDOW.blit(sample_label, (10, 10))  # Draws the text
 
@@ -62,21 +68,38 @@ def main_menu():
     title_font = pygame.font.SysFont('helvetica bold', 100)
     start_font = pygame.font.SysFont('helvetica bold', 80)
 
+    WINDOW.blit(menu_bg, (0, 0))
+    title1 = title_font.render("UNIVERSITY OF FLORIDA:", 1, white)
+    title2 = title_font.render("TOWER DEFENSE", 1, white)
+
+    quit = title_font.render("QUIT", 1, white)
+
     run = True
     while run:
-        WINDOW.blit(menu_bg, (0,0))
-        title1 = title_font.render("UNIVERSITY OF FLORIDA:", 1, (255,255,255))
-        title2 = title_font.render("TOWER DEFENSE", 1, (255, 255, 255))
-        start_text = start_font.render("CLICK TO START", 1, (255, 100, 0))
+        start_text = start_font.render("CLICK TO START", 1, orange)
         WINDOW.blit(title1, (WIDTH / 40, 200))
         WINDOW.blit(title2, (WIDTH / 40, 300))
         WINDOW.blit(start_text, (WIDTH / 40, 600))
         pygame.display.update()
+
+        #position of mouse
+        mouse = pygame.mouse.get_pos()
+
+        #makes quit button, turns red if mouse hovers
+        if WIDTH / 40 <= mouse[0] <= WIDTH / 40 + 300 and 700 <= mouse[1] <= 800:
+            pygame.draw.rect(WINDOW, red, pygame.Rect(WIDTH / 40, 700, 300, 100))
+        else:
+            pygame.draw.rect(WINDOW, orange, pygame.Rect(WIDTH / 40, 700, 300, 100))
+
+        WINDOW.blit(quit, (WIDTH / 40 - quit.get_width() / 2 + 150, 800 - quit.get_height() / 2 - 50))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                main()
+                if WIDTH / 40 <= mouse[0] <= WIDTH / 40 + 300 and 700 <= mouse[1] <= 800:
+                    pygame.quit()
+                else:
+                    main()
     pygame.quit()
 
 main_menu()
