@@ -64,7 +64,7 @@ def main():
         # CHECKS FOR USER INPUT
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
-        attacker.move_up(10)
+        attacker.move_right(10, WIDTH)
 
 
 def main_menu():
