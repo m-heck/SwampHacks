@@ -1,6 +1,5 @@
 
 # Game state class that controls the general functions of the player and game
-import pygame
 import os
 import castle
 import fighter
