@@ -2,7 +2,8 @@ import pygame
 import os
 import time
 import random
-from fighter import Fighter
+from fighter import Attacker
+from fighter import Defender
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -12,15 +13,6 @@ WIDTH, HEIGHT = 750, 750
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Swamphacks Game")
 
-class Player():
-    def __init__(self):
-        self.img = GREEN_DRAGON_1
-        self.x = 300
-        self.y = 300
-
-    def draw(self, window):
-        window.blit(self.img, (self.x, self.y))
-
 
 def main():
     # VARIABLES
@@ -29,7 +21,7 @@ def main():
     main_font = pygame.font.SysFont('arial', 50)
 
     # CREATES PLAYER OBJECT
-    player = Player()
+    player = Attacker()
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 

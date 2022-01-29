@@ -22,35 +22,38 @@ class Fighter:
         window.blit(self.img, (self.x, self.y))
 
 class Attacker(Fighter):
-    def __init__(self, x, y, hp = 100, movespd = 10):
+    def __init__(self, x, y, hp = 100, movespd = 1):
         super().__init__(x, y)
         self.hp = hp
-        self.movespd = movespd
+        self.movespd = movespd  # A percentage (where 1 = 100%)
         self.img = BLUE_DRAGON_1
 
+    def draw(self, window):
+        window.blit(self.img, (self.x, self.y))
+
+    # MOVEMENT METHODS
     def move_right(self, steps, window_width):
         if self.x + self.img.get_width() + steps <= window_width:
-            self.x += steps
+            self.x += steps * self.movespd
         else:
             self.x = window_width
 
     def move_left(self, steps):
         if self.x - steps >= 0:
-            self.x -= steps
+            self.x -= steps * self.movespd
         else:
             self.x = 0
 
     def move_up(self, steps):
         if self.y - steps <= 0:
-            self.y += steps
+            self.y += steps * self.movespd
         else:
             self.y = 0
 
     def move_down(self, steps, window_height):
         if self.y + steps + self.img.get_height() <= window_height:
-            self.y += steps
+            self.y += steps * self.movespd
         else:
             self.y = window_height
 
-class Defender(Fighter):
-    def __init__(self, x, y, atk, range, attackspd):
+    def take_damage
