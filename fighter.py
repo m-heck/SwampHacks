@@ -34,14 +34,16 @@ class Fighter:
 
 
 class Attacker(Fighter):
-    def __init__(self, x=-20, y=375, hp = 100, movespd=500):
+    def __init__(self, x=-20, y=375, hp=100, movespd=500):
         super().__init__(x, y)
+        self.max_hp = hp
         self.hp = hp
         self.movespd = movespd
         self.img = BLUE_DRAGON_1
 
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
+        self.healthbar(window)
 
     # MOVEMENT METHODS
     def move_right(self, steps, window_width):
@@ -78,3 +80,11 @@ class Attacker(Fighter):
         else:
             self.hp = 0
             self.alive = False
+            # TODO broadcast event for attacker killed
+
+    def healthbar(self, window):
+        # red rect
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.img.get_height() + 10, self.img.get_width(), 10))
+
+        # green rect
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.img.get_height() + 10, self.img.get_width() * (self.hp / self.max_hp), 10))
