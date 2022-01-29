@@ -3,7 +3,7 @@ import os
 import time
 import random
 import helper
-from fighter import Attacker
+from fighter import Attacker, Defender
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -16,7 +16,7 @@ pygame.display.set_caption("Swamphacks Game")
 #Menu BG
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
 
-#colors
+# colors
 white = (255, 255, 255)
 red = (255, 0, 0)
 orange = (255, 100, 0)
@@ -28,8 +28,12 @@ def main():
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
 
-    # CREATES PLAYER OBJECT
-    attacker = Attacker()
+    # CREATES FIGHTER ARRAYS
+    attackers = []
+    defenders = []
+
+    attackers.append(Attacker())
+    defenders.append(Defender())
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
@@ -44,8 +48,11 @@ def main():
 
         WINDOW.blit(sample_label, (10, 10))  # Draws the text
 
-        # DRAWS THE ATTACKER
-        attacker.draw(WINDOW)
+        # DRAWS THE FIGHTERS
+        for attacker in attackers:
+            attacker.draw(WINDOW)
+        for defender in defenders:
+            defender.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
@@ -64,7 +71,7 @@ def main():
         # CHECKS FOR USER INPUT
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
-        attacker.move_right(10, WIDTH)
+        attackers[0].move_right(10, WIDTH)
 
 
 def main_menu():
@@ -104,5 +111,6 @@ def main_menu():
                 else:
                     main()
     pygame.quit()
+
 
 main_menu()
