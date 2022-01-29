@@ -1,18 +1,20 @@
-
 # Game state class that controls the general functions of the player and game
 import os
-import castle
+from castle import Castle
 from fighter import Attacker, Defender
 
 from enum import Enum
+
+
 class State(Enum):
     WIN = 0
     LOSS = 1
     PLAYING = 2
 
+
 class Gamestate:
     def __init__(self):
-        self.currentcastle = castle()
+        self.currentcastle = Castle()
         self.mystate = State.PLAYING
         self.defenderlist = []
         self.defcount = 0
@@ -22,15 +24,20 @@ class Gamestate:
 
     def getState(self):
         return self.mystate
+
     def setState(self, thisstate):
         self.mystate = thisstate
+
     def getlists(self):
-        return defenderlist,enemylist
-    def setlists(self,defender,enemy):
+        return defenderlist, enemylist
+
+    def setlists(self, defender, enemy):
         self.defenderlist = defender
         self.enemylist = enemy
+
     def getlevel(self):
         return self.level
+
     def setLevel(self, level):
         self.level = level
 
@@ -70,6 +77,3 @@ class Gamestate:
 
     def levelUp(self):
         print("Not decided yet")
-
-
-
