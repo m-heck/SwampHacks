@@ -5,7 +5,8 @@ import random
 import helper
 from castle import Castle
 from fighter import Attacker, Defender
-from gamestate import Gamestate
+
+import gamestate
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -32,7 +33,7 @@ def main():
     main_font = pygame.font.SysFont('arial', 50)
 
     # Initializes Gamestate
-    currentstate = Gamestate.gameInstance()
+    #currentstate = gamestate.Gamestate.gameInstance()
 
     # CREATES FIGHTER ARRAYS
     attackers = []

@@ -13,6 +13,7 @@ class State(Enum):
 
 class Gamestate:
     stateinstance = None
+
     def __init__(self):
         if Gamestate.stateinstance != None:
             raise Exception("GameState constructor is only supposed to be called once")
@@ -31,6 +32,18 @@ class Gamestate:
         if Gamestate.stateinstance == None:
             Gamestate()
         return Gamestate.stateinstance
+
+    def getState(self):
+        return self.mystate
+    def getlists(self):
+        return defenderlist,enemylist
+    def setlists(self,defender,enemy):
+        self.defenderlist = defender
+        self.enemylist = enemy
+    def getlevel(self):
+        return self.level
+    def setLevel(self, level):
+        self.level = level
 
     def gameLoss(self):
         if self.currentcastle.hp < 1:
