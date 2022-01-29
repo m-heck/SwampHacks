@@ -11,7 +11,7 @@ from gamestate import Gamestate, State
 pygame.font.init()
 
 # Creates window
-WIDTH, HEIGHT = 1700, 956
+WIDTH, HEIGHT = 1275, 717
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Swamphacks Game")
 
@@ -87,7 +87,7 @@ def main():
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
         attackers[0].move_right(10, WIDTH)
-        defenders[0].cooldown()
+        defenders[0].cool_down_caller()
         defenders[0].attack(attackers)
 
 
