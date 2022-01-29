@@ -32,7 +32,7 @@ def main():
     main_font = pygame.font.SysFont('arial', 50)
 
     # Initializes Gamestate
-    currentstate = Gamestate.gameInstance()
+    #currentstate = gamestate.Gamestate.gameInstance()
 
     # CREATES FIGHTER ARRAYS
     attackers = []
