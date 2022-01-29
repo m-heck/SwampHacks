@@ -3,7 +3,6 @@ import os
 import time
 import random
 from fighter import Attacker
-from fighter import Defender
 
 # initializes pygame's fonts
 pygame.font.init()

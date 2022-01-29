@@ -22,7 +22,7 @@ class Fighter:
         window.blit(self.img, (self.x, self.y))
 
 class Attacker(Fighter):
-    def __init__(self, x, y, hp = 100, movespd = 1):
+    def __init__(self, x=375, y=375, hp = 100, movespd = 1):
         super().__init__(x, y)
         self.hp = hp
         self.movespd = movespd  # A percentage (where 1 = 100%)
@@ -56,4 +56,4 @@ class Attacker(Fighter):
         else:
             self.y = window_height
 
-    def take_damage
+    # def take_damage
