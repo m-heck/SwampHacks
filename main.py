@@ -11,6 +11,10 @@ WIDTH, HEIGHT = 750, 750
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Swamphacks Game")
 
+# Loads images
+GREEN_DRAGON_1 = pygame.image.load(os.path.join("images", "gdrag1.png"))
+GREEN_DRAGON_2 = pygame.image.load(os.path.join("images", "gdrag2.png"))
+
 
 def main():
     # VARIABLES
