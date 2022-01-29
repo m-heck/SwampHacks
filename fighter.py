@@ -101,7 +101,7 @@ class Defender(Fighter):
         self.atk = atk
         self.range = range
         self.img = GREEN_DRAGON_1
-        self.cooldown = 60
+        self.cooldown = 5
         self.cool_down_counter = 0
         self.arrows = []
         self.mask = pygame.mask.from_surface(self.img)
