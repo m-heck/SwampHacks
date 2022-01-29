@@ -278,7 +278,7 @@ def main():
 
 
 def main_menu():
-    title_font = pygame.font.SysFont("comicsans", 50)
+    title_font = pygame.font.SysFont('arial', 50)
     run = True
     while run:
         WIN.blit(BG, (0,0))
