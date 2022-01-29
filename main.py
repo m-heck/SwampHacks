@@ -39,6 +39,8 @@ def main():
     attackers = []
     defenders = []
 
+
+
     attackers.append(Attacker())
     defenders.append(Defender())
 

@@ -27,7 +27,8 @@ class Gamestate:
             self.level = 1
             Gamestate.stateinstance = self
 
-    def gameInstance(self):
+    @staticmethod
+    def gameInstance():
         if Gamestate.stateinstance == None:
             Gamestate()
         return Gamestate.stateinstance
