@@ -13,7 +13,20 @@ pygame.display.set_caption("Swamphacks Game")
 
 # Loads images
 GREEN_DRAGON_1 = pygame.image.load(os.path.join("images", "gdrag1.png"))
+GREEN_DRAGON_1 = pygame.transform.scale(GREEN_DRAGON_1, (60, 60))
 GREEN_DRAGON_2 = pygame.image.load(os.path.join("images", "gdrag2.png"))
+BLUE_DRAGON_1 = pygame.image.load(os.path.join("images", "bdrag1.png"))
+BLUE_DRAGON_2 = pygame.image.load(os.path.join("images", "bdrag2.png"))
+
+
+class Player():
+    def __init__(self):
+        self.img = GREEN_DRAGON_1
+        self.x = 300
+        self.y = 300
+
+    def draw(self, window):
+        window.blit(self.img, (self.x, self.y))
 
 
 def main():
@@ -21,6 +34,9 @@ def main():
     run = True  # Dictates whether the while loop will run or not
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
+
+    # CREATES PLAYER OBJECT
+    player = Player()
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
@@ -33,6 +49,9 @@ def main():
         sample_label = main_font.render(f"Sample Text", 1, (255, 255, 255))  # Draws text (item, 1, color)
 
         WINDOW.blit(sample_label, (10, 10))  # Draws the text
+
+        # DRAWS THE PLAYER
+        player.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
