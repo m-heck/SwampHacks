@@ -32,7 +32,7 @@ def main():
     main_font = pygame.font.SysFont('arial', 50)
 
     # Initializes Gamestate
-    #currentstate = gamestate.Gamestate.gameInstance()
+    mystate = Gamestate()
 
     # CREATES FIGHTER ARRAYS
     attackers = []
@@ -43,6 +43,8 @@ def main():
 
     # CREATES CASTLE OBJECT
     castle = Castle()
+
+    mystate.setlists(defenders, attackers)
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
@@ -65,6 +67,7 @@ def main():
 
         # DRAWS THE CASTLE
         castle.draw(WINDOW)
+        #mystate.currentcastle.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
