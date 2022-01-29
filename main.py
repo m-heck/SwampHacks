@@ -5,7 +5,7 @@ import random
 import helper
 from castle import Castle
 from fighter import Attacker, Defender
-from gamestate import gamestate
+from gamestate import Gamestate
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -84,6 +84,7 @@ def main():
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
         attackers[0].move_right(10, WIDTH)
+        defenders[0].cooldown()
         defenders[0].attack(attackers)
 
 
