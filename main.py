@@ -41,10 +41,13 @@ def main():
     attackers.append(Attacker())
     defenders.append(Defender())
 
-    # CREATES CASTLE OBJECT
-    castle = Castle()
-
+    # SETS THE ATTACKERS AND DEFENDERS LISTED TO THE GAMESTATE
     mystate.setlists(defenders, attackers)
+    # CREATES CASTLE OBJECT (Not needed because of gamestate)
+    # castle = Castle()
+    # Call the castle object in gamestate by doing mystate.currentcastle
+
+
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
@@ -66,7 +69,6 @@ def main():
             defender.draw(WINDOW)
 
         # DRAWS THE CASTLE
-        #castle.draw(WINDOW)
         mystate.currentcastle.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
