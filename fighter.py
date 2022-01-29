@@ -1,6 +1,7 @@
 # Abstract class for attackers and defender
 import pygame
 import os
+import helper
 
 # Loads images
 # !! FOR NOW, GREEN = DEFENDERS and BLUE = ATTACKERS
@@ -40,6 +41,7 @@ class Attacker(Fighter):
         self.hp = hp
         self.movespd = movespd
         self.img = BLUE_DRAGON_1
+        self.mask = pygame.mask.from_surface(self.img)
 
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
@@ -88,3 +90,32 @@ class Attacker(Fighter):
 
         # green rect
         pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.img.get_height() + 10, self.img.get_width() * (self.hp / self.max_hp), 10))
+
+
+class Defender(Fighter):
+    def __init__(self, x=370, y=200, atk=20, atkspd=10, range=200):
+        super().__init__(x, y)
+        self.atk = atk
+        self.atkspd = atkspd
+        self.range = range
+        self.img = GREEN_DRAGON_1
+        self.cooldown = round((1 / atkspd) * 60)
+        self.cooldown_counter = self.cooldown
+        self.arrows = []
+        self.mask = pygame.mask.from_surface(self.img)
+
+    def draw(self, window):
+        window.blit(self.img, (self.x, self.y))
+        for arrow in self.arrows:
+            arrow.draw(window)
+
+    def cooldown(self):
+        if self.cooldown_counter >= self.cooldown:
+            self.cooldown_counter = 0
+        elif self.cooldown_counter > 0:
+            self.cooldown_counter += 1
+
+    def attack(self, obj, attackers):
+        if self.cooldown_counter == 0:
+            closest_attacker = helper.find_closest(obj, attackers)
+            obj.take_damage(self.atk)
