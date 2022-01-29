@@ -1,10 +1,11 @@
+import castle as castle
 import pygame
 import os
 import time
 import random
 import helper
 from fighter import Attacker
-import castle
+from castle import Castle
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -31,6 +32,9 @@ def main():
 
     # CREATES PLAYER OBJECT
     attacker = Attacker()
+
+    # CREATES CASTLE OBJECT
+    castle = Castle()
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 

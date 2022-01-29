@@ -9,7 +9,7 @@ CASTLE = pygame.transform.scale(CASTLE, (100, 100))
 
 
 class Castle:
-    def __init__(self, x=1000, y=375, hp=100):
+    def __init__(self, x=1600, y=375, hp=100):
         self.x = x
         self.y = y
         self.hp = hp
@@ -26,7 +26,7 @@ class Castle:
         return self.alive
 
     # draws the castle
-    def draw(self, window):
+    def draw(self, window: object) -> object:
         window.blit(self.img, (self.x, self.y))
 
     # castle takes damage
