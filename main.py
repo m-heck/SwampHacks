@@ -33,13 +33,11 @@ def main():
 
 
     # Initializes Gamestate
-    currentState = gamestate.Gamestate.gameInstance()
+    currentstate = gamestate.Gamestate.gameInstance()
 
     # CREATES FIGHTER ARRAYS
     attackers = []
     defenders = []
-
-
 
     attackers.append(Attacker())
     defenders.append(Defender())
