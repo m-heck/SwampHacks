@@ -4,6 +4,7 @@ import time
 import random
 import helper
 from fighter import Attacker
+import castle
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -46,6 +47,9 @@ def main():
 
         # DRAWS THE ATTACKER
         attacker.draw(WINDOW)
+
+        # DRAWS THE CASTLE
+        castle.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
