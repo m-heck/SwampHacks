@@ -4,7 +4,7 @@ import fighter
 
 # loads image of the Castle
 # The placeholder is a bigger green dragon.
-CASTLE = pygame.image.load(os.path.join("images", "gdrag1.png"))
+CASTLE = pygame.image.load(os.path.join("images", "arrow.png"))
 CASTLE = pygame.transform.scale(CASTLE, (100, 100))
 
 

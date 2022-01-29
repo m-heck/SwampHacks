@@ -1,15 +1,10 @@
-import castle as castle
 import pygame
 import os
 import time
 import random
 import helper
-<<<<<<< HEAD
-from fighter import Attacker
 from castle import Castle
-=======
 from fighter import Attacker, Defender
->>>>>>> 7127bb12f008f25536c9fa35b1ba9bb00c88476c
 
 # initializes pygame's fonts
 pygame.font.init()
