@@ -35,11 +35,11 @@ class Fighter:
 
 
 class Attacker(Fighter):
-    def __init__(self, x=-20, y=375, hp=100, movespd=500):
+    def __init__(self, x=-20, y=375, hp=100, move_delay=300):
         super().__init__(x, y)
         self.max_hp = hp
         self.hp = hp
-        self.movespd = movespd
+        self.move_delay = move_delay
         self.img = BLUE_DRAGON_1
         self.mask = pygame.mask.from_surface(self.img)
 
@@ -53,28 +53,28 @@ class Attacker(Fighter):
             self.x += steps
         else:
             self.x = window_width - self.img.get_width()
-        pygame.time.wait(self.movespd)
+        pygame.time.wait(self.move_delay)
 
     def move_left(self, steps):
         if self.x - steps >= 0:
             self.x -= steps
         else:
             self.x = 0
-        pygame.time.wait(self.movespd)
+        pygame.time.wait(self.move_delay)
 
     def move_up(self, steps):
         if self.y - steps >= 0:
             self.y -= steps
         else:
             self.y = 0
-        pygame.time.wait(self.movespd)
+        pygame.time.wait(self.move_delay)
 
     def move_down(self, steps, window_height):
         if self.y + steps + self.img.get_height() <= window_height:
             self.y += steps
         else:
             self.y = window_height
-        pygame.time.wait(self.movespd)
+        pygame.time.wait(self.move_delay)
 
     def take_damage(self, dmg):
         if self.hp - dmg <= 0:
@@ -93,13 +93,13 @@ class Attacker(Fighter):
 
 
 class Defender(Fighter):
-    def __init__(self, x=370, y=200, atk=20, atkspd=10, range=200):
+    def __init__(self, x=370, y=200, atk=20, atk_delay=10, range=300):
         super().__init__(x, y)
         self.atk = atk
-        self.atkspd = atkspd
+        self.atk_delay = atk_delay
         self.range = range
         self.img = GREEN_DRAGON_1
-        self.cooldown = round((1 / atkspd) * 60)
+        self.cooldown = atk_delay * 60
         self.cooldown_counter = self.cooldown
         self.arrows = []
         self.mask = pygame.mask.from_surface(self.img)
@@ -115,7 +115,8 @@ class Defender(Fighter):
         elif self.cooldown_counter > 0:
             self.cooldown_counter += 1
 
-    def attack(self, obj, attackers):
+    def attack(self, attackers):
         if self.cooldown_counter == 0:
-            closest_attacker = helper.find_closest(obj, attackers)
-            obj.take_damage(self.atk)
+            closest_attacker = helper.find_closest(self, attackers)
+            if helper.find_distance(self, closest_attacker) < range:
+                closest_attacker.take_damage(self.atk)

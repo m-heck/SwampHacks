@@ -3,6 +3,7 @@ import os
 import time
 import random
 import helper
+from fighter import Attacker
 from castle import Castle
 from fighter import Attacker, Defender
 
@@ -79,6 +80,7 @@ def main():
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
         attackers[0].move_right(10, WIDTH)
+        defenders[0].attack(attackers)
 
 
 def main_menu():
