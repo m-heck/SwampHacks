@@ -8,10 +8,12 @@ from fighter import Attacker
 pygame.font.init()
 
 # Creates window
-WIDTH, HEIGHT = 750, 750
+WIDTH, HEIGHT = 1700, 956
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Swamphacks Game")
 
+#Menu BG
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
 
 def main():
     # VARIABLES
@@ -56,4 +58,25 @@ def main():
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
 
-main()
+def main_menu():
+    title_font = pygame.font.SysFont('helvetica bold', 100)
+    start_font = pygame.font.SysFont('helvetica bold', 80)
+
+    run = True
+    while run:
+        WINDOW.blit(menu_bg, (0,0))
+        title1 = title_font.render("UNIVERSITY OF FLORIDA:", 1, (255,255,255))
+        title2 = title_font.render("TOWER DEFENSE", 1, (255, 255, 255))
+        start_text = start_font.render("CLICK TO START", 1, (255, 100, 0))
+        WINDOW.blit(title1, (WIDTH / 40, 200))
+        WINDOW.blit(title2, (WIDTH / 40, 300))
+        WINDOW.blit(start_text, (WIDTH / 40, 600))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main()
+    pygame.quit()
+
+main_menu()
