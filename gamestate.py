@@ -1,6 +1,5 @@
 
 # Game state class that controls the general functions of the player and game
-import pygame
 import os
 import castle
 import fighter
@@ -24,14 +23,16 @@ class Gamestate:
             self.defcount = 0
             self.enemylist = []
             self.enemycount = 0
+            self.level = 1
             Gamestate.stateinstance = self
 
-    def gameInstance(self):
+    @staticmethod
+    def gameInstance():
         if Gamestate.stateinstance == None:
             Gamestate()
         return Gamestate.stateinstance
 
-    def gameloss(self):
+    def gameLoss(self):
         if self.currentcastle.hp < 1:
             self.mystate = State.LOSS
             return True
@@ -40,19 +41,33 @@ class Gamestate:
     def gameWin(self):
         print("not decided yet")
 
-    def defenderadd(self, defender):
+    def defenderAdd(self, defender):
         self.defenderlist.append(defender)
         self.defcount = self.defcount + 1
 
-    def defenderremove(self, defender):
+    def defenderRemove(self, defender):
         self.defenderlist.remove(defender)
         self.defcount = self.defcount - 1
 
-    def attackeradd(self, attacker):
+    def attackerAdd(self, attacker):
         self.enemylist.append(attacker)
         self.enemycount = self.enemycount + 1
 
-    def attackerremove(self, attacker):
+    def attackerRemove(self, attacker):
         self.enemylist.remove(attacker)
         self.enemycount = self.enemycount - 1
+
+    def restart(self):
+        self.currentcastle = castle()
+        self.mystate = State.PLAYING
+        self.defenderlist.clear()
+        self.defcount = 0
+        self.enemylist.clear()
+        self.enemycount = 0
+        self.level = 1
+
+    def levelUp(self):
+        print("Not decided yet")
+
+
 
