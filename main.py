@@ -5,8 +5,7 @@ import random
 import helper
 from castle import Castle
 from fighter import Attacker, Defender
-
-import gamestate
+from gamestate import Gamestate, State
 
 # initializes pygame's fonts
 pygame.font.init()

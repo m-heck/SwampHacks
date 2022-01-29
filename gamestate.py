@@ -2,8 +2,7 @@
 # Game state class that controls the general functions of the player and game
 import os
 import castle
-import fighter
-
+from fighter import Attacker, Defender
 
 from enum import Enum
 class State(Enum):
@@ -12,29 +11,19 @@ class State(Enum):
     PLAYING = 2
 
 class Gamestate:
-    stateinstance = None
-
     def __init__(self):
-        if Gamestate.stateinstance != None:
-            raise Exception("GameState constructor is only supposed to be called once")
-        else:
-            self.currentcastle = castle()
-            self.mystate = State.PLAYING
-            self.defenderlist = []
-            self.defcount = 0
-            self.enemylist = []
-            self.enemycount = 0
-            self.level = 1
-            Gamestate.stateinstance = self
-
-    @staticmethod
-    def gameInstance():
-        if Gamestate.stateinstance == None:
-            Gamestate()
-        return Gamestate.stateinstance
+        self.currentcastle = castle()
+        self.mystate = State.PLAYING
+        self.defenderlist = []
+        self.defcount = 0
+        self.enemylist = []
+        self.enemycount = 0
+        self.level = 1
 
     def getState(self):
         return self.mystate
+    def setState(self, thisstate):
+        self.mystate = thisstate
     def getlists(self):
         return defenderlist,enemylist
     def setlists(self,defender,enemy):
