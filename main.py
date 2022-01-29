@@ -1,8 +1,5 @@
 import pygame
 import os
-import time
-import random
-import helper
 from fighter import Attacker, Defender
 
 # initializes pygame's fonts
@@ -72,6 +69,7 @@ def main():
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
 
         attackers[0].move_right(10, WIDTH)
+        defenders[0].attack(attackers)
 
 
 def main_menu():
