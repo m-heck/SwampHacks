@@ -1,10 +1,11 @@
 import math
+from fighter import Fighter
 
 
 def find_distance(obj1, obj2):
-    x_displacement = obj1.get_x() - obj2.get_x()
-    y_displacement = obj1.get_y() - obj2.get_y()
-    distance = round(math.sqrt(math.pow(x_displacement, 2) + math.pow(y_displacement, 2)))
+    x_displacement = int(obj1.get_x() - obj2.get_x())
+    y_displacement = int(obj1.get_y() - obj2.get_y())
+    distance = math.sqrt(x_displacement ** 2 + y_displacement ** 2)
     return distance
 
 

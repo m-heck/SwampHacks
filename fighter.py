@@ -2,6 +2,7 @@
 import pygame
 import os
 import helper
+import math
 
 # Loads images
 # !! FOR NOW, GREEN = DEFENDERS and BLUE = ATTACKERS
@@ -24,10 +25,10 @@ class Fighter:
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
 
-    def get_x(self):
+    def get_x_coordinate(self):
         return self.x
 
-    def get_y(self):
+    def get_y_coordinate(self):
         return self.y
 
     def get_alive(self):
@@ -77,12 +78,15 @@ class Attacker(Fighter):
         pygame.time.wait(self.move_delay)
 
     def take_damage(self, dmg):
-        if self.hp - dmg <= 0:
+        if self.hp - dmg > 0:
             self.hp -= dmg
         else:
             self.hp = 0
             self.alive = False
             # TODO broadcast event for attacker killed
+
+    def set_hp(self, newhp):
+        self.hp = newhp
 
     def healthbar(self, window):
         # red rect
@@ -116,7 +120,8 @@ class Defender(Fighter):
             self.cooldown_counter += 1
 
     def attack(self, attackers):
-        if self.cooldown_counter == 0:
+        if self.cooldown_counter <= 0:
+            self.img = BLUE_DRAGON_2
             closest_attacker = helper.find_closest(self, attackers)
-            if helper.find_distance(self, closest_attacker) < range:
+            if helper.find_distance(self, closest_attacker) < self.range:
                 closest_attacker.take_damage(self.atk)
