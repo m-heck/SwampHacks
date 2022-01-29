@@ -1,6 +1,5 @@
 import pygame
 import os
-from fighter import Attacker
 from castle import Castle
 from fighter import Attacker, Defender
 
@@ -12,7 +11,7 @@ WIDTH, HEIGHT = 1700, 956
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Swamphacks Game")
 
-#Menu BG
+# Menu BG
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
 
 # colors
@@ -20,6 +19,7 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 orange = (255, 100, 0)
 black = (0, 0, 0)
+
 
 def main():
     # VARIABLES

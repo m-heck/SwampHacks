@@ -93,13 +93,13 @@ class Attacker(Fighter):
 
 
 class Defender(Fighter):
-    def __init__(self, x=370, y=200, atk=20, atk_delay=10, range=300):
+    def __init__(self, x=370, y=250, atk=20, atk_delay=10, range=300):
         super().__init__(x, y)
         self.atk = atk
         self.atk_delay = atk_delay
         self.range = range
         self.img = GREEN_DRAGON_1
-        self.cooldown = atk_delay * 60
+        self.cooldown = 60
         self.cooldown_counter = self.cooldown
         self.arrows = []
         self.mask = pygame.mask.from_surface(self.img)
