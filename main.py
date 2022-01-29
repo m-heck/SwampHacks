@@ -2,6 +2,7 @@ import pygame
 import os
 import time
 import random
+from fighter import Fighter
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -10,14 +11,6 @@ pygame.font.init()
 WIDTH, HEIGHT = 750, 750
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Swamphacks Game")
-
-# Loads images
-GREEN_DRAGON_1 = pygame.image.load(os.path.join("images", "gdrag1.png"))
-GREEN_DRAGON_1 = pygame.transform.scale(GREEN_DRAGON_1, (60, 60))
-GREEN_DRAGON_2 = pygame.image.load(os.path.join("images", "gdrag2.png"))
-BLUE_DRAGON_1 = pygame.image.load(os.path.join("images", "bdrag1.png"))
-BLUE_DRAGON_2 = pygame.image.load(os.path.join("images", "bdrag2.png"))
-
 
 class Player():
     def __init__(self):
@@ -40,6 +33,7 @@ def main():
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
+    # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
     def redraw_window():  # We can only access it within the main, but it has access to locals
         # BASE LAYER
         # Background must be drawn first so it is on the lowest level
@@ -55,6 +49,7 @@ def main():
 
         pygame.display.update()  # Refreshes the display
 
+    # =========== METHOD FOR RUNNING THE GAME ===========
     while run:
         clock.tick(FPS)  # Going to tick the clock based on FPS value, keeps game consistent
 
