@@ -11,49 +11,80 @@ BLUE_DRAGON_1 = pygame.image.load(os.path.join("images", "bdrag1.png"))
 BLUE_DRAGON_1 = pygame.transform.scale(BLUE_DRAGON_1, (60, 60))
 BLUE_DRAGON_2 = pygame.image.load(os.path.join("images", "bdrag2.png"))
 
+
 class Fighter:
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.img = None
+        self.alive = True
 
     # Draws person to window
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
 
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def get_alive(self):
+        return self.alive
+
+
 class Attacker(Fighter):
-    def __init__(self, x=375, y=375, hp = 100, movespd = 1):
+    def __init__(self, x=-20, y=375, hp=100, movespd=500):
         super().__init__(x, y)
+        self.max_hp = hp
         self.hp = hp
-        self.movespd = movespd  # A percentage (where 1 = 100%)
+        self.movespd = movespd
         self.img = BLUE_DRAGON_1
 
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
+        self.healthbar(window)
 
     # MOVEMENT METHODS
     def move_right(self, steps, window_width):
-        if self.x + self.img.get_width() + steps <= window_width:
-            self.x += steps * self.movespd
+        if self.x + self.img.get_width() + 10 <= window_width:
+            self.x += steps
         else:
-            self.x = window_width
+            self.x = window_width - self.img.get_width()
+        pygame.time.wait(self.movespd)
 
     def move_left(self, steps):
         if self.x - steps >= 0:
-            self.x -= steps * self.movespd
+            self.x -= steps
         else:
             self.x = 0
+        pygame.time.wait(self.movespd)
 
     def move_up(self, steps):
-        if self.y - steps <= 0:
-            self.y += steps * self.movespd
+        if self.y - steps >= 0:
+            self.y -= steps
         else:
             self.y = 0
+        pygame.time.wait(self.movespd)
 
     def move_down(self, steps, window_height):
         if self.y + steps + self.img.get_height() <= window_height:
-            self.y += steps * self.movespd
+            self.y += steps
         else:
             self.y = window_height
+        pygame.time.wait(self.movespd)
 
-    # def take_damage
+    def take_damage(self, dmg):
+        if self.hp - dmg <= 0:
+            self.hp -= dmg
+        else:
+            self.hp = 0
+            self.alive = False
+            # TODO broadcast event for attacker killed
+
+    def healthbar(self, window):
+        # red rect
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.img.get_height() + 10, self.img.get_width(), 10))
+
+        # green rect
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.img.get_height() + 10, self.img.get_width() * (self.hp / self.max_hp), 10))

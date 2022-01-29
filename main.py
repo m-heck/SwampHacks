@@ -2,6 +2,7 @@ import pygame
 import os
 import time
 import random
+import helper
 from fighter import Attacker
 
 # initializes pygame's fonts
@@ -28,7 +29,7 @@ def main():
     main_font = pygame.font.SysFont('arial', 50)
 
     # CREATES PLAYER OBJECT
-    player = Attacker()
+    attacker = Attacker()
 
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
@@ -43,8 +44,8 @@ def main():
 
         WINDOW.blit(sample_label, (10, 10))  # Draws the text
 
-        # DRAWS THE PLAYER
-        player.draw(WINDOW)
+        # DRAWS THE ATTACKER
+        attacker.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
@@ -62,6 +63,8 @@ def main():
 
         # CHECKS FOR USER INPUT
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
+
+        attacker.move_right(10, WIDTH)
 
 
 def main_menu():
