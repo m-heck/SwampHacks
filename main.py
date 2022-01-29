@@ -1,5 +1,7 @@
 import pygame
 import os
+from fighter import Attacker
+from castle import Castle
 from fighter import Attacker, Defender
 
 # initializes pygame's fonts
@@ -32,6 +34,9 @@ def main():
     attackers.append(Attacker())
     defenders.append(Defender())
 
+    # CREATES CASTLE OBJECT
+    castle = Castle()
+
     clock = pygame.time.Clock()  # Checks for events 60 times every second
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
@@ -50,6 +55,9 @@ def main():
             attacker.draw(WINDOW)
         for defender in defenders:
             defender.draw(WINDOW)
+
+        # DRAWS THE CASTLE
+        castle.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
