@@ -91,8 +91,7 @@ def edit_phase(mystate, clock):
         # Generates random values for defender's stats
         random_defender_x = random.randint(100, WIDTH - 100)
         upper_level = random.choice((True, False))
-        random_defender_atk = random.randint(30, 70)
-        random_defender_atkspd = random.randint(1, 20)
+        random_defender_atk = random.randint(30, 60)
         random_defender_range = random.randint(50, 200)
         random_defender_accuracy = random.randint(70, 100)
 
@@ -107,8 +106,7 @@ def edit_phase(mystate, clock):
             is_edit_phase = False
         if keys[pygame.K_UP]:
             if gold - defender_cost >= 0:
-                mystate.defenderAdd(Defender(random_defender_x, random_defender_y, random_defender_atk,
-                                             random_defender_atkspd / 100, random_defender_range, random_defender_accuracy))
+                mystate.defenderAdd(Defender(random_defender_x, random_defender_y, random_defender_atk, random_defender_range, random_defender_accuracy))
                 gold -= defender_cost
                 pygame.time.wait(100)
 
@@ -143,10 +141,11 @@ def attack_phase(mystate, clock):
         for attacker in mystate.getAttackers():
             attacker.move_right(10, WIDTH)
             attacker.draw(WINDOW)
-            if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
-                mystate.attackerRemove(attacker)
-            if not attacker.alive:
-                mystate.attackerRemove(attacker)
+            # this code is causing errors
+            # if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
+            #    mystate.attackerRemove(attacker)
+            # if not attacker.alive:
+            #    mystate.attackerRemove(attacker)
         for defender in mystate.defenderlist:
             defender.draw(WINDOW)
 

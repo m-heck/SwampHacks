@@ -112,7 +112,7 @@ class Attacker(Fighter):
 
 
 class Defender(Fighter):
-    def __init__(self, x=370, y=300, atk=5, atkspd=1, range=200, accuracy=80):
+    def __init__(self, x=370, y=300, atk=5, range=200, accuracy=80):
         super().__init__(x, y)
         self.atk = atk
         self.range = range
@@ -122,7 +122,6 @@ class Defender(Fighter):
         self.arrows = []
         self.mask = pygame.mask.from_surface(self.img)
         self.accuracy = accuracy
-        self.atkspd = atkspd # A percentage where 1 = 100 %
 
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
@@ -143,7 +142,7 @@ class Defender(Fighter):
         if self.cool_down_counter >= self.cooldown:
             self.cool_down_counter = 0
         elif self.cool_down_counter > 0:
-            self.cool_down_counter += 1 * self.atkspd
+            self.cool_down_counter += 1
 
     def attack(self, attackers):
         if self.cool_down_counter == 0:
