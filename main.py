@@ -47,7 +47,7 @@ def main():
         attack_phase(mystate, clock)
         stats_phase(mystate, clock)
 
-    #TODO end game
+    game_end(mystate, clock)
 
 
 def edit_phase(mystate, clock):
@@ -253,6 +253,9 @@ def stats_phase(mystate, clock):
         if keys[pygame.K_SPACE]:
             is_stats_phase = False
             pygame.time.wait(50)
+
+def game_end(mystate, clock):
+    # TODO
 
 
 def main_menu():
