@@ -91,10 +91,10 @@ def edit_phase(mystate, clock):
         # Generates random values for defender's stats
         random_defender_x = random.randint(100, WIDTH - 100)
         upper_level = random.choice((True, False))
-        random_defender_atk = random.randint(3, 10)
-        random_defender_atkspd = random.randint(8, 12)
+        random_defender_atk = random.randint(30, 70)
+        random_defender_atkspd = random.randint(1, 20)
         random_defender_range = random.randint(50, 200)
-        random_defender_accuracy = random.randint(50, 100)
+        random_defender_accuracy = random.randint(70, 100)
 
         if upper_level:
             random_defender_y = 300 + random.randint(-50, 200)
@@ -141,9 +141,9 @@ def attack_phase(mystate, clock):
 
         # DRAWS THE FIGHTERS
         for attacker in mystate.getAttackers():
-            if attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
-                attacker.draw(WINDOW)
-            else:
+            attacker.move_right(10, WIDTH)
+            attacker.draw(WINDOW)
+            if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
                 mystate.attackerRemove(attacker)
             if not attacker.alive:
                 mystate.attackerRemove(attacker)
@@ -166,8 +166,6 @@ def attack_phase(mystate, clock):
         for event in pygame.event.get():  # Loops through all events
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
-
-        attackers[0].move_right(10, WIDTH)
 
         for defender in defenders:
             defender.cool_down_caller()
