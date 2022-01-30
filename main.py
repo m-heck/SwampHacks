@@ -113,12 +113,13 @@ def edit_phase(mystate, clock):
                 pygame.time.wait(100)
 
 
-# FIXME fix attack phase to detect when to call stats_phase in main
+# FIXME fix attack phase to detect when to call stats_phase in main, handle dead attackers
 def attack_phase(mystate, clock):
     is_attack_phase = True
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
+    reverse = True
 
     attackers = mystate.getAttackers()
     defenders = mystate.getDefenders()
@@ -143,14 +144,14 @@ def attack_phase(mystate, clock):
         # DRAWS THE FIGHTERS
         for attacker in mystate.getAttackers():
             attacker.move_right(10, WIDTH)
-            attacker.draw(WINDOW)
+            attacker.draw(WINDOW, reverse)
             # this code is causing errors
             # if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
             #    mystate.attackerRemove(attacker)
             # if not attacker.alive:
             #    mystate.attackerRemove(attacker)
         for defender in mystate.defenderlist:
-            defender.draw(WINDOW)
+            defender.draw(WINDOW, reverse)
 
         # DRAWS THE CASTLE
         mystate.currentcastle.draw(WINDOW)
@@ -163,6 +164,8 @@ def attack_phase(mystate, clock):
 
         # CALLS REDRAW METHOD
         redraw_window()
+
+        reverse = not reverse
 
         # QUIT GAME
         for event in pygame.event.get():  # Loops through all events

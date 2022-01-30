@@ -9,9 +9,11 @@ import random
 GREEN_DRAGON_1 = pygame.image.load(os.path.join("images", "gdrag1.png"))
 GREEN_DRAGON_1 = pygame.transform.scale(GREEN_DRAGON_1, (80, 80))
 GREEN_DRAGON_2 = pygame.image.load(os.path.join("images", "gdrag2.png"))
+GREEN_DRAGON_2 = pygame.transform.scale(GREEN_DRAGON_2, (80, 80))
 BLUE_DRAGON_1 = pygame.image.load(os.path.join("images", "bdrag1.png"))
 BLUE_DRAGON_1 = pygame.transform.scale(BLUE_DRAGON_1, (80, 80))
 BLUE_DRAGON_2 = pygame.image.load(os.path.join("images", "bdrag2.png"))
+BLUE_DRAGON_2 = pygame.transform.scale(BLUE_DRAGON_2, (80, 80))
 
 
 class Fighter:
@@ -19,10 +21,14 @@ class Fighter:
         self.x = x
         self.y = y
         self.img = None
+        self.img2 = None
 
     # Draws person to window
-    def draw(self, window):
-        window.blit(self.img, (self.x, self.y))
+    def draw(self, window, reverse):
+        if reverse:
+            window.blit(self.img, (self.x, self.y))
+        else:
+            window.blit(self.img2, (self.x, self.y))
 
     def get_x(self):
         return self.x
@@ -47,11 +53,15 @@ class Attacker(Fighter):
         self.hp = hp
         self.move_delay = move_delay
         self.img = BLUE_DRAGON_1
+        self.img2 = BLUE_DRAGON_2
         self.mask = pygame.mask.from_surface(self.img)
         self.alive = True
 
-    def draw(self, window):
-        window.blit(self.img, (self.x, self.y))
+    def draw(self, window, reverse):
+        if reverse:
+            window.blit(self.img, (self.x, self.y))
+        else:
+            window.blit(self.img2, (self.x, self.y))
         self.healthbar(window)
 
     def get_center_x(self):
@@ -117,17 +127,18 @@ class Defender(Fighter):
         self.atk = atk
         self.range = range
         self.img = GREEN_DRAGON_1
+        self.img2 = GREEN_DRAGON_2
         self.cooldown = 5
         self.cool_down_counter = 0
-        self.arrows = []
         self.mask = pygame.mask.from_surface(self.img)
         self.accuracy = accuracy
 
-    def draw(self, window):
-        window.blit(self.img, (self.x, self.y))
+    def draw(self, window, reverse):
+        if reverse:
+            window.blit(self.img, (self.x, self.y))
+        else:
+            window.blit(self.img2, (self.x, self.y))
         self.attack_radius(window)
-        for arrow in self.arrows:
-            arrow.draw(window)
 
     def get_center_x(self):
         return self.x + self.img.get_width() / 2
