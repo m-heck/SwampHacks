@@ -64,13 +64,13 @@ def edit_phase(mystate, clock):
         WINDOW.fill((0, 0, 0))
 
         # Creates text
-        phase_label = small_font.render(f"Puchase Defenders", 1, white)  # Draws text (item, 1, color)
+        phase_label = main_font.render(f"Puchase Defenders", 1, white)  # Draws text (item, 1, color)
         instructions_label = small_font.render(f"Press up to buy and space to continue", 1, white)
         defender_count_label = small_font.render(f"Defender count: {mystate.getDefenderListSize()}", 1, white)
         gold_label = small_font.render(f"Gold: {gold}", 1, white)
 
         WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
-        WINDOW.blit(instructions_label, (WIDTH / 2 - instructions_label.get_width() / 2, 50))
+        WINDOW.blit(instructions_label, (WIDTH / 2 - instructions_label.get_width() / 2, 60))
         WINDOW.blit(defender_count_label, (WIDTH / 2 - defender_count_label.get_width() / 2, 500))
         WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 20, 10))
 
@@ -88,9 +88,13 @@ def edit_phase(mystate, clock):
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
 
+        # Generates random values for defender's stats
         random_defender_x = random.randint(100, WIDTH - 100)
         upper_level = random.choice((True, False))
-        random_defender_y = 0
+        random_defender_atk = random.randint(3, 10)
+        random_defender_atkspd = random.randint(8, 12)
+        random_defender_range = random.randint(50, 200)
+        random_defender_accuracy = random.randint(50, 100)
 
         if upper_level:
             random_defender_y = 300 + random.randint(-50, 200)
@@ -103,7 +107,8 @@ def edit_phase(mystate, clock):
             is_edit_phase = False
         if keys[pygame.K_UP]:
             if gold - defender_cost >= 0:
-                mystate.defenderAdd(Defender(random_defender_x, random_defender_y))
+                mystate.defenderAdd(Defender(random_defender_x, random_defender_y, random_defender_atk,
+                                             random_defender_atkspd / 100, random_defender_range, random_defender_accuracy))
                 gold -= defender_cost
                 pygame.time.wait(100)
 
@@ -112,6 +117,7 @@ def attack_phase(mystate, clock):
     is_attack_phase = True
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
+    small_font = pygame.font.SysFont('arial', 30)
 
     attackers = mystate.getAttackers()
     defenders = mystate.getDefenders()
@@ -126,9 +132,12 @@ def attack_phase(mystate, clock):
         # loop
 
         # Creates text
-        sample_label = main_font.render(f"Attack phase", 1, black)  # Draws text (item, 1, color)
+        phase_label = main_font.render(f"Attack phase", 1, white)  # Draws text (item, 1, color)
+        level_label = small_font.render(f"Level: {mystate.getlevel()}", 1, black)
+        # todo add gold label
 
-        WINDOW.blit(sample_label, (10, 10))  # Draws the text
+        WINDOW.blit(phase_label, (10, 10))  # Draws the text
+        WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 20, 10))
 
         # DRAWS THE FIGHTERS
         for attacker in mystate.enemylist:
