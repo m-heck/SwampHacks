@@ -24,7 +24,7 @@ class Fighter:
         self.img2 = None
 
     # Draws person to window
-    def draw(self, window, reverse):
+    def draw(self, window, reverse, show_range=True):
         if reverse:
             window.blit(self.img, (self.x, self.y))
         else:
@@ -45,6 +45,10 @@ class Fighter:
     def get_height(self):
         return self.img.get_height()
 
+    def scale(self, first, second):
+        self.img = pygame.transform.scale(self.img, (first, second))
+        self.img2 = pygame.transform.scale(self.img2, (first, second))
+
 
 class Attacker(Fighter):
     def __init__(self, x=0, y=450, hp=100, move_delay=300):
@@ -57,7 +61,7 @@ class Attacker(Fighter):
         self.mask = pygame.mask.from_surface(self.img)
         self.alive = True
 
-    def draw(self, window, reverse):
+    def draw(self, window, reverse, show_range=True):
         if reverse:
             window.blit(self.img, (self.x, self.y))
         else:
@@ -133,12 +137,13 @@ class Defender(Fighter):
         self.mask = pygame.mask.from_surface(self.img)
         self.accuracy = accuracy
 
-    def draw(self, window, reverse):
+    def draw(self, window, reverse, show_range=True):
         if reverse:
             window.blit(self.img, (self.x, self.y))
         else:
             window.blit(self.img2, (self.x, self.y))
-        self.attack_radius(window)
+        if show_range:
+            self.attack_radius(window)
 
     def get_center_x(self):
         return self.x + self.img.get_width() / 2
