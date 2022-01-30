@@ -111,6 +111,11 @@ def edit_phase(mystate, clock):
                 mystate.defenderAdd(Defender(random_defender_x, random_defender_y, random_defender_atk, random_defender_range, random_defender_accuracy))
                 gold -= defender_cost
                 pygame.time.wait(100)
+        if keys[pygame.K_DOWN]:
+            if mystate.defcount >= 1:
+                mystate.defenderRemove(mystate.getDefenders()[mystate.defcount - 1])
+                gold += defender_cost
+                pygame.time.wait(100)
 
 
 # FIXME fix attack phase to detect when to call stats_phase in main, handle dead attackers
