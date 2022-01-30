@@ -97,7 +97,8 @@ class Gamestate:
         self.enemycount = self.enemycount - 1
 
     def restart(self):
-        self.currentcastle = castle()
+        self.currentcastle = Castle()
+        self.currentbank = Bank()
         self.mystate = State.PLAYING
         self.defenderlist.clear()
         self.defcount = 0
