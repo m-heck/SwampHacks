@@ -8,6 +8,9 @@ from gamestate import Gamestate, State
 # initializes pygame's fonts
 pygame.font.init()
 
+# Sets FPS
+FPS = 80
+
 # Creates window
 WIDTH, HEIGHT = 1275, 717
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -47,12 +50,11 @@ def main():
         attack_phase(mystate, clock)
         stats_phase(mystate, clock)
 
-    game_end(mystate, clock)
+    #game_end(mystate, clock)
 
 
 def edit_phase(mystate, clock):
     is_edit_phase = True
-    FPS = 60
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
     tiny_font = pygame.font.SysFont('arial', 20)
@@ -156,7 +158,6 @@ def edit_phase(mystate, clock):
 
 def attack_phase(mystate, clock):
     is_attack_phase = True
-    FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
     reverse = True
@@ -171,8 +172,7 @@ def attack_phase(mystate, clock):
         rand_attacker_x = random.randint(-1000, -100)
         rand_attacker_y = random.randint(250, 550)
         rand_attacker_hp = random.randint(70, 90)
-        rand_attacker_movedelay = random.randint(100, 300)
-        mystate.attackerAdd(Attacker(rand_attacker_x, rand_attacker_y, rand_attacker_hp, rand_attacker_movedelay))
+        mystate.attackerAdd(Attacker(rand_attacker_x, rand_attacker_y, rand_attacker_hp))
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
     def redraw_window():  # We can only access it within the main, but it has access to locals
@@ -239,7 +239,6 @@ def attack_phase(mystate, clock):
 
 def stats_phase(mystate, clock):
     is_stats_phase = True
-    FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
     gold_reward = random.randint(100, 190)
@@ -285,7 +284,7 @@ def stats_phase(mystate, clock):
             is_stats_phase = False
             pygame.time.wait(50)
 
-def game_end(mystate, clock):
+#def game_end(mystate, clock):
     # TODO
 
 
@@ -304,24 +303,24 @@ def main_menu():
         start_text = start_font.render("CLICK TO START", 1, orange)
         WINDOW.blit(title1, (WIDTH / 40, 200))
         WINDOW.blit(title2, (WIDTH / 40, 300))
-        WINDOW.blit(start_text, (WIDTH / 40, 600))
+        WINDOW.blit(start_text, (WIDTH / 40, 600 - 100))
         pygame.display.update()
 
         #position of mouse
         mouse = pygame.mouse.get_pos()
 
         #makes quit button, turns red if mouse hovers
-        if WIDTH / 40 <= mouse[0] <= WIDTH / 40 + 300 and 700 <= mouse[1] <= 800:
-            pygame.draw.rect(WINDOW, red, pygame.Rect(WIDTH / 40, 700, 300, 100))
+        if WIDTH / 40 <= mouse[0] <= WIDTH / 40 + 300 and 700 - 100<= mouse[1] <= 800 - 100:
+            pygame.draw.rect(WINDOW, red, pygame.Rect(WIDTH / 40, 700 - 100, 300, 100))
         else:
-            pygame.draw.rect(WINDOW, orange, pygame.Rect(WIDTH / 40, 700, 300, 100))
+            pygame.draw.rect(WINDOW, orange, pygame.Rect(WIDTH / 40, 700 - 100, 300, 100))
 
-        WINDOW.blit(quit, (WIDTH / 40 - quit.get_width() / 2 + 150, 800 - quit.get_height() / 2 - 50))
+        WINDOW.blit(quit, (WIDTH / 40 - quit.get_width() / 2 + 150, 800 - quit.get_height() / 2 - 50 - 100))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if WIDTH / 40 <= mouse[0] <= WIDTH / 40 + 300 and 700 <= mouse[1] <= 800:
+                if WIDTH / 40 <= mouse[0] <= WIDTH / 40 + 300 and 700 - 100 <= mouse[1] <= 800 - 100:
                     pygame.quit()
                 else:
                     main()
