@@ -17,7 +17,7 @@ pygame.display.set_caption("Swamphacks Game")
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
 GAME_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "castle.JPEG")), (WIDTH, HEIGHT))
 EDIT_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "edit_bg.JPEG")), (WIDTH, HEIGHT))
-
+END_BG = pygame.transform.scane(pygame.image.load(os.path.join("images", "edit_bg.JPEG")), (WIDTH, HEIGHT))
 
 # colors
 white = (255, 255, 255)
@@ -255,7 +255,13 @@ def stats_phase(mystate, clock):
             pygame.time.wait(50)
 
 def game_end(mystate, clock):
-    # TODO
+    if mystate.gameLoss() == True:
+        end_font = pygame.font.SysFont('helvetica bold', 100)
+        WINDOW.blit(END_BG, (0, 0))
+        endtitle = end_font.render("YOU LOSE", 1, red)
+        
+
+
 
 
 def main_menu():
