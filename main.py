@@ -1,9 +1,8 @@
 import pygame
 import os
 import random
-from castle import Castle
 from fighter import Attacker, Defender
-from gamestate import Gamestate, State
+from gamestate import Gamestate
 
 # initializes pygame's fonts
 pygame.font.init()
@@ -57,8 +56,8 @@ def main():
             edit_phase(mystate, clock)
             attack_phase(mystate, clock)
             stats_phase(mystate, clock)
-        #game_end(mystate, clock, high_score)
-        main_menu()
+        game_end(mystate, clock, high_score)
+        main()
 
 
 def edit_phase(mystate, clock):
@@ -123,7 +122,7 @@ def edit_phase(mystate, clock):
         # Generates random values for defender's stats
         random_defender_x = random.randint(100, WIDTH - 100)
         upper_level = random.choice((True, False))
-        random_defender_atk = random.randint(30, 60)
+        random_defender_atk = random.randint(20, 40)
         random_defender_range = random.randint(90, 250)
         random_defender_accuracy = random.randint(70, 100)
 
@@ -175,10 +174,10 @@ def attack_phase(mystate, clock):
     defenders = mystate.getDefenders()
 
     # Generates random values for attackers
-    num_attackers = round(random.randrange(100, 300) / 100 * mystate.getlevel())
+    num_attackers = round(random.randrange(1, 3 + mystate.getlevel()))
 
     for i in range(num_attackers):
-        rand_attacker_x = random.randint(-1000, -100)
+        rand_attacker_x = random.randint(-600, -100)
         rand_attacker_y = random.randint(250, 550)
         rand_attacker_hp = random.randint(70, 90)
         mystate.attackerAdd(Attacker(rand_attacker_x, rand_attacker_y, rand_attacker_hp))
@@ -218,6 +217,9 @@ def attack_phase(mystate, clock):
 
         # DRAWS THE CASTLE
         mystate.currentcastle.draw(WINDOW)
+
+        if mystate.currentcastle.get_hp() <= 0:
+            game_end(mystate, clock, high_score)
 
         pygame.display.update()  # Refreshes the display
 
@@ -305,11 +307,9 @@ def game_end(mystate, clock, high_score):
         end_score = end_font.render(f"Your Highest Level Reached: {high_score}!", 1, white)
         end_replay = end_font.render("Press Space to Replay", 1, white)
 
-
         WINDOW.blit(end_title, (WIDTH / 2 - end_title.get_width() / 2, 10))
         WINDOW.blit(end_score, (WIDTH / 2 - end_score.get_width() / 2, 60))
         WINDOW.blit(end_replay, (WIDTH / 2 - end_replay.get_width() / 2, 110))
-
 
     while is_end_phase:
         clock.tick(FPS)  # Going to tick the clock based on FPS value, keeps game consistent
@@ -326,8 +326,7 @@ def game_end(mystate, clock, high_score):
         if keys[pygame.K_SPACE]:
             is_end_phase = False
             pygame.time.wait(50)
-            return True
-    return False
+            main_menu()
 
 def main_menu():
     title_font = pygame.font.SysFont('helvetica bold', 100)
