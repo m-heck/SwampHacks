@@ -21,6 +21,10 @@ menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.pn
 GAME_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "castle.JPEG")), (WIDTH, HEIGHT))
 EDIT_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "edit_bg.JPEG")), (WIDTH, HEIGHT))
 
+# sets icon
+icon = pygame.image.load("icon.png")
+pygame.display.set_icon(icon)
+
 
 # colors
 white = (255, 255, 255)
@@ -224,9 +228,6 @@ def attack_phase(mystate, clock):
         for event in pygame.event.get():  # Loops through all events
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
-
-        if mystate.currentcastle.get_hp() <= 0:
-            game_end(mystate, clock)
 
         if mystate.enemycount <= 0:
             pygame.time.wait(1000)
