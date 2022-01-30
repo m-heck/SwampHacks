@@ -140,8 +140,13 @@ def attack_phase(mystate, clock):
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 20, 10))
 
         # DRAWS THE FIGHTERS
-        for attacker in mystate.enemylist:
-            attacker.draw(WINDOW)
+        for attacker in mystate.getAttackers():
+            if attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
+                attacker.draw(WINDOW)
+            else:
+                mystate.attackerRemove(attacker)
+            if not attacker.alive:
+                mystate.attackerRemove(attacker)
         for defender in mystate.defenderlist:
             defender.draw(WINDOW)
 

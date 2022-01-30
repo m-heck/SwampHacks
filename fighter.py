@@ -19,7 +19,6 @@ class Fighter:
         self.x = x
         self.y = y
         self.img = None
-        self.alive = True
 
     # Draws person to window
     def draw(self, window):
@@ -49,6 +48,7 @@ class Attacker(Fighter):
         self.move_delay = move_delay
         self.img = BLUE_DRAGON_1
         self.mask = pygame.mask.from_surface(self.img)
+        self.alive = True
 
     def draw(self, window):
         window.blit(self.img, (self.x, self.y))
@@ -59,6 +59,9 @@ class Attacker(Fighter):
 
     def get_center_y(self):
         return self.y + self.img.get_height() / 2
+
+    def get_img(self):
+        return self.img
 
     # MOVEMENT METHODS
     def move_right(self, steps, window_width):
@@ -132,6 +135,9 @@ class Defender(Fighter):
 
     def get_center_y(self):
         return self.y + self.img.get_height() / 2
+
+    def get_img(self):
+        return self.img
 
     def cool_down_caller(self):
         if self.cool_down_counter >= self.cooldown:
