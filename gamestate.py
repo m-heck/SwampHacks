@@ -21,6 +21,7 @@ class Gamestate:
         self.enemylist = []
         self.enemycount = 0
         self.level = 1
+        self.gold = 300
 
     def getState(self):
         return self.mystate
@@ -85,4 +86,4 @@ class Gamestate:
         self.level = 1
 
     def levelUp(self):
-        print("Not decided yet")
+        self.level += 1

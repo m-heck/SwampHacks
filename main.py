@@ -56,7 +56,7 @@ def edit_phase(mystate, clock):
     FPS = 60
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
-    gold = 300  # FIXME placeholder value, implement bank/game state here
+    gold = mystate.gold
     defender_cost = 100
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
@@ -141,20 +141,22 @@ def attack_phase(mystate, clock):
         # Creates text
         phase_label = main_font.render(f"Attack phase", 1, white)  # Draws text (item, 1, color)
         level_label = small_font.render(f"Level: {mystate.getlevel()}", 1, black)
-        # todo add gold label
+        gold_label = small_font.render(f"Gold: {mystate.gold}", 1, white)
 
         WINDOW.blit(phase_label, (10, 10))  # Draws the text
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 20, 10))
+        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 0, HEIGHT - gold_label.get_height() - 20))
 
         # DRAWS THE FIGHTERS
         for attacker in mystate.getAttackers():
-            attacker.move_right(10, WIDTH)
+            attacker.move_right(30, WIDTH)
             attacker.draw(WINDOW, reverse)
-            # this code is causing errors
-            # if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
-            #    mystate.attackerRemove(attacker)
-            # if not attacker.alive:
-            #    mystate.attackerRemove(attacker)
+            if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
+                mystate.attackerRemove(attacker)
+                mystate.gold -= 30
+            if not attacker.alive:
+                mystate.attackerRemove(attacker)
+                mystate.gold += 20
         for defender in mystate.defenderlist:
             defender.draw(WINDOW, reverse)
 
@@ -170,12 +172,16 @@ def attack_phase(mystate, clock):
         # CALLS REDRAW METHOD
         redraw_window()
 
-        reverse = not reverse
+        reverse = not reverse # for animation
 
         # QUIT GAME
         for event in pygame.event.get():  # Loops through all events
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
+
+        if mystate.enemycount <= 0:
+            pygame.time.wait(1000)
+            break
 
         for defender in defenders:
             defender.cool_down_caller()
@@ -187,24 +193,27 @@ def stats_phase(mystate, clock):
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
+    gold_reward = 200
 
     # increases level
     mystate.levelUp()
-    # todo increase gold amount
+    mystate.gold += gold_reward
 
     def redraw_window():
         # BASE LAYER
         # Background must be drawn first so it is on the lowest level
-        WINDOW.fill((0, 0, 0))  # anything that you want consistent in the game window should be added within the
+        WINDOW.blit(GAME_BG, (0, 0))  # anything that you want consistent in the game window should be added within the
         # loop
 
         # Creates text
-        phase_label = main_font.render(f"Your stats", 1, white)  # Draws text (item, 1, color)
-        level_label = small_font.render(f"Moving onto level {mystate.getlevel()}...", 1, black)
-        # todo add gold label
+        phase_label = main_font.render(f"Your stats", 1, black)  # Draws text (item, 1, color)
+        level_label = small_font.render(f"You gained {gold_reward} gold! Moving onto level {mystate.getlevel()}...",
+                                        1,                            black)
+        gold_label = small_font.render(f"Gold: {mystate.gold}", 1, white)
 
         WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
         WINDOW.blit(level_label, (WIDTH / 2 - level_label.get_width() / 2, 60))
+        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 20, HEIGHT - gold_label.get_height() - 20))
 
         # DRAWS THE CASTLE
         mystate.currentcastle.draw(WINDOW)
@@ -221,6 +230,10 @@ def stats_phase(mystate, clock):
         for event in pygame.event.get():  # Loops through all events
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
+
+        keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
+        if keys[pygame.K_SPACE]:
+            is_stats_phase = False
 
 
 def main_menu():
