@@ -1,8 +1,6 @@
 import pygame
 import os
-import time
 import random
-import helper
 from castle import Castle
 from fighter import Attacker, Defender
 from gamestate import Gamestate, State
@@ -47,7 +45,7 @@ def main():
     # castle = Castle()
     # Call the castle object in gamestate by doing mystate.currentcastle
 
-    while True:  # Todo fix so it will stop when the game is lost
+    while mystate.currentcastle.get_hp() >= 0:  # Todo fix so it will stop when the game is lost
         edit_phase(mystate, clock)
         attack_phase(mystate, clock)
         stats_phase(mystate, clock)
@@ -83,7 +81,7 @@ def edit_phase(mystate, clock):
         WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 130, 80))
 
         menu_defender.draw(WINDOW, reverse, False)
-        pygame.time.wait(150)
+        pygame.time.wait(100)
 
         pygame.display.update()  # Refreshes the display
 

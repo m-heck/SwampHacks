@@ -1,5 +1,4 @@
 import math
-from fighter import Fighter
 
 
 def find_distance(obj1, obj2):

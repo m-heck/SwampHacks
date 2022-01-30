@@ -1,20 +1,19 @@
 import pygame
 import os
-import fighter
 
 # loads image of the Castle
 # The placeholder is a bigger green dragon.
-CASTLE = pygame.image.load(os.path.join("images", "arrow.png"))
-CASTLE = pygame.transform.scale(CASTLE, (100, 100))
+#CASTLE = pygame.image.load(os.path.join("images", "arrow.png"))
+#CASTLE = pygame.transform.scale(CASTLE, (100, 100))
 
 
 class Castle:
-    def __init__(self, x=1600, y=375, hp=100):
+    def __init__(self, x=1000, y=375, hp=100):
         self.x = x
         self.y = y
         self.hp = hp
-        self.img = CASTLE
         self.alive = True
+        self.max_hp = hp
 
     def get_x(self):
         return self.x
@@ -26,13 +25,21 @@ class Castle:
         return self.alive
 
     # draws the castle
-    def draw(self, window: object) -> object:
-        window.blit(self.img, (self.x, self.y))
+    def draw(self, window):
+        #window.blit(self.img, (self.x, self.y))
+        self.healthbar(window)
 
     # castle takes damage
-    def take_damage(self, attacker):
-        self.hp -= 1
-        fighter.remove(attacker)
+    def take_damage(self, dmg):
+        self.hp -= dmg
 
     def get_hp(self):
         return self.hp
+
+    def healthbar(self, window):
+        # red rect
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 10, 10))
+
+        # green rect
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y, 10, 10))
+
