@@ -29,8 +29,6 @@ black = (0, 0, 0)
 def main():
     # VARIABLES
     run = True  # Dictates whether the while loop will run or not
-    FPS = 60  # Shows 60 frames per second
-    main_font = pygame.font.SysFont('arial', 50)
 
     # Initializes Gamestate
     mystate = Gamestate()
@@ -39,8 +37,7 @@ def main():
     attackers = []
     defenders = []
 
-    attackers.append(Attacker())
-    defenders.append(Defender())
+    clock = pygame.time.Clock()  # Checks for events 60 times every second
 
     # SETS THE ATTACKERS AND DEFENDERS LISTED TO THE GAMESTATE
     mystate.setlists(defenders, attackers)
@@ -48,17 +45,88 @@ def main():
     # castle = Castle()
     # Call the castle object in gamestate by doing mystate.currentcastle
 
-    clock = pygame.time.Clock()  # Checks for events 60 times every second
+    edit_phase(mystate, clock)
+    attack_phase(mystate, clock)
+
+
+def edit_phase(mystate, clock):
+    is_edit_phase = True
+    FPS = 60
+    main_font = pygame.font.SysFont('arial', 50)
+    small_font = pygame.font.SysFont('arial', 30)
+    gold = 300  # FIXME placeholder value, implement bank/game state here
+    defender_cost = 100
+
+    # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
+    def redraw_window():
+        # BASE LAYER
+        # Background must be drawn first so it is on the lowest level
+        WINDOW.fill((0, 0, 0))
+
+        # Creates text
+        phase_label = small_font.render(f"Puchase Defenders", 1, white)  # Draws text (item, 1, color)
+        instructions_label = small_font.render(f"Press up to buy and space to continue", 1, white)
+        defender_count_label = small_font.render(f"Defender count: {mystate.getDefenderListSize()}", 1, white)
+        gold_label = small_font.render(f"Gold: {gold}", 1, white)
+
+        WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
+        WINDOW.blit(instructions_label, (WIDTH / 2 - instructions_label.get_width() / 2, 50))
+        WINDOW.blit(defender_count_label, (WIDTH / 2 - defender_count_label.get_width() / 2, 500))
+        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 20, 10))
+
+        pygame.display.update()  # Refreshes the display
+
+    # =========== METHOD FOR RUNNING THE GAME ===========
+    while is_edit_phase:
+        clock.tick(FPS)  # Going to tick the clock based on FPS value, keeps game consistent
+
+        # CALLS REDRAW METHOD
+        redraw_window()
+
+        # QUIT GAME
+        for event in pygame.event.get():  # Loops through all events
+            if event.type == pygame.QUIT:  # If the player closes out, stops the game
+                quit()
+
+        random_defender_x = random.randint(100, WIDTH - 100)
+        upper_level = random.choice((True, False))
+        random_defender_y = 0
+
+        if upper_level:
+            random_defender_y = 300 + random.randint(-50, 200)
+        else:
+            random_defender_y = 600 + random.randint(-50, 0)
+
+        # CHECKS FOR USER INPUT
+        keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
+        if keys[pygame.K_SPACE]:
+            is_edit_phase = False
+        if keys[pygame.K_UP]:
+            if gold - defender_cost >= 0:
+                mystate.defenderAdd(Defender(random_defender_x, random_defender_y))
+                gold -= defender_cost
+                pygame.time.wait(100)
+
+
+def attack_phase(mystate, clock):
+    is_attack_phase = True
+    FPS = 60  # Shows 60 frames per second
+    main_font = pygame.font.SysFont('arial', 50)
+
+    attackers = mystate.getAttackers()
+    defenders = mystate.getDefenders()
+
+    mystate.attackerAdd(Attacker())
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
     def redraw_window():  # We can only access it within the main, but it has access to locals
         # BASE LAYER
         # Background must be drawn first so it is on the lowest level
-        WINDOW.blit(GAME_BG, (0,0))  # anything that you want consistent in the game window should be added within the
+        WINDOW.blit(GAME_BG, (0, 0))  # anything that you want consistent in the game window should be added within the
         # loop
 
         # Creates text
-        sample_label = main_font.render(f"Sample Text", 1, white)  # Draws text (item, 1, color)
+        sample_label = main_font.render(f"Attack phase", 1, black)  # Draws text (item, 1, color)
 
         WINDOW.blit(sample_label, (10, 10))  # Draws the text
 
@@ -74,7 +142,7 @@ def main():
         pygame.display.update()  # Refreshes the display
 
     # =========== METHOD FOR RUNNING THE GAME ===========
-    while run:
+    while is_attack_phase:
         clock.tick(FPS)  # Going to tick the clock based on FPS value, keeps game consistent
 
         # CALLS REDRAW METHOD
@@ -85,12 +153,11 @@ def main():
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
 
-        # CHECKS FOR USER INPUT
-        keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
-
         attackers[0].move_right(10, WIDTH)
-        defenders[0].cool_down_caller()
-        defenders[0].attack(attackers)
+
+        for defender in defenders:
+            defender.cool_down_caller()
+            defender.attack(attackers)
 
 
 def main_menu():

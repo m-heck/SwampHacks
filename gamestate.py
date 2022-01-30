@@ -29,7 +29,16 @@ class Gamestate:
         self.mystate = thisstate
 
     def getlists(self):
-        return defenderlist, enemylist
+        return self.defenderlist, self.enemylist
+
+    def getAttackers(self):
+        return self.enemylist
+
+    def getDefenders(self):
+        return self.defenderlist
+
+    def getDefenderListSize(self):
+        return len(self.defenderlist)
 
     def setlists(self, defender, enemy):
         self.defenderlist = defender
