@@ -11,17 +11,37 @@ class State(Enum):
     LOSS = 1
     PLAYING = 2
 
+class Bank:
+    def __init__(self):
+        self.gold = 300
+        self.round = 1
+        self.killed = 0
+    def get_gold(self):
+        return self.gold
+    def gaingold(self,goldgained):
+        self.gold += goldgained;
+    # gives player gold at the end of every round
+    def round_end(self):
+        self.gold += (round * 80) + (5 * killed)
+        self.round += 1
+        self.killed = 0
+
+    def buy(self,x):
+        if self.gold < x.get_price():
+            pass
+        else:
+            self.gold -= x.get_price()
 
 class Gamestate:
     def __init__(self):
         self.currentcastle = Castle()
+        self.currentbank = Bank()
         self.mystate = State.PLAYING
         self.defenderlist = []
         self.defcount = 0
         self.enemylist = []
         self.enemycount = 0
         self.level = 1
-        self.gold = 300
 
     def getState(self):
         return self.mystate
