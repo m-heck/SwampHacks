@@ -56,7 +56,7 @@ def edit_phase(mystate, clock):
     FPS = 60
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
-    gold = mystate.gold
+    gold = mystate.currentbank.gold
     defender_cost = 100
     reverse = True
 
@@ -149,7 +149,7 @@ def attack_phase(mystate, clock):
         # Creates text
         phase_label = main_font.render(f"Attack phase", 1, white)  # Draws text (item, 1, color)
         level_label = small_font.render(f"Level: {mystate.getlevel()}", 1, black)
-        gold_label = small_font.render(f"Gold: {mystate.gold}", 1, white)
+        gold_label = small_font.render(f"Gold: {mystate.currentbank.gold}", 1, white)
 
         WINDOW.blit(phase_label, (10, 10))  # Draws the text
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 20, 10))
@@ -161,10 +161,10 @@ def attack_phase(mystate, clock):
             attacker.draw(WINDOW, reverse)
             if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
                 mystate.attackerRemove(attacker)
-                mystate.gold -= 30
+                mystate.currentbank.gaingold(-30)
             if not attacker.alive:
                 mystate.attackerRemove(attacker)
-                mystate.gold += 20
+                mystate.currentbank.gaingold(20)
         for defender in mystate.defenderlist:
             defender.draw(WINDOW, reverse)
 
@@ -205,7 +205,7 @@ def stats_phase(mystate, clock):
 
     # increases level
     mystate.levelUp()
-    mystate.gold += gold_reward
+    mystate.currentbank.gaingold(gold_reward)
 
     def redraw_window():
         # BASE LAYER
@@ -217,7 +217,7 @@ def stats_phase(mystate, clock):
         phase_label = main_font.render(f"Your stats", 1, black)  # Draws text (item, 1, color)
         level_label = small_font.render(f"You gained {gold_reward} gold! Moving onto level {mystate.getlevel()}...",
                                         1,                            black)
-        gold_label = small_font.render(f"Gold: {mystate.gold}", 1, white)
+        gold_label = small_font.render(f"Gold: {mystate.currentbank.gold}", 1, white)
 
         WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
         WINDOW.blit(level_label, (WIDTH / 2 - level_label.get_width() / 2, 60))
