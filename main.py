@@ -24,6 +24,10 @@ menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.pn
 GAME_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "castle.JPEG")), (WIDTH, HEIGHT))
 EDIT_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "edit_bg.JPEG")), (WIDTH, HEIGHT))
 
+# sets icon
+icon = pygame.image.load("icon.png")
+pygame.display.set_icon(icon)
+
 # colors
 white = (255, 255, 255)
 red = (255, 0, 0)
