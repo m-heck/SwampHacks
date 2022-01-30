@@ -5,4 +5,6 @@ HackerGuide- https://swamphacks.notion.site/SwampHacks-VIII-Hacker-Guide-1d4a8b0
 
 Hopin Signin- https://hopin.com/sign_in
 
-Background image from- https://www.deviantart.com/bvigec/art/Level-background-for-a-mobile-game-355249548 by https://www.deviantart.com/bvigec
+Main Menu background image from- https://www.artstation.com/artwork/xJv4WW
+
+Game background image from- https://www.deviantart.com/bvigec/art/Level-background-for-a-mobile-game-355249548 by https://www.deviantart.com/bvigec
