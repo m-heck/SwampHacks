@@ -41,14 +41,13 @@ def main():
 
     # SETS THE ATTACKERS AND DEFENDERS LISTED TO THE GAMESTATE
     mystate.setlists(defenders, attackers)
-    # CREATES CASTLE OBJECT (Not needed because of gamestate)
-    # castle = Castle()
-    # Call the castle object in gamestate by doing mystate.currentcastle
 
-    while mystate.currentcastle.get_hp() >= 0:  # Todo fix so it will stop when the game is lost
+    while mystate.currentcastle.get_hp() >= 0:
         edit_phase(mystate, clock)
         attack_phase(mystate, clock)
         stats_phase(mystate, clock)
+
+    #TODO end game
 
 
 def edit_phase(mystate, clock):
@@ -103,7 +102,7 @@ def edit_phase(mystate, clock):
         random_defender_x = random.randint(100, WIDTH - 100)
         upper_level = random.choice((True, False))
         random_defender_atk = random.randint(30, 60)
-        random_defender_range = random.randint(50, 200)
+        random_defender_range = random.randint(90, 250)
         random_defender_accuracy = random.randint(70, 100)
 
         if upper_level:
@@ -153,7 +152,7 @@ def attack_phase(mystate, clock):
 
         WINDOW.blit(phase_label, (10, 10))  # Draws the text
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 20, 10))
-        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 0, HEIGHT - gold_label.get_height() - 20))
+        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 20, HEIGHT - gold_label.get_height() - 20))
 
         # DRAWS THE FIGHTERS
         for attacker in mystate.getAttackers():
@@ -161,6 +160,7 @@ def attack_phase(mystate, clock):
             attacker.draw(WINDOW, reverse)
             if not attacker.get_x() <= WIDTH - attacker.img.get_width() - 10:
                 mystate.attackerRemove(attacker)
+                mystate.currentcastle.take_damage(random.randint(7, 13))
                 mystate.currentbank.gaingold(-30)
             if not attacker.alive:
                 mystate.attackerRemove(attacker)

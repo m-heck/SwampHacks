@@ -38,8 +38,8 @@ class Castle:
 
     def healthbar(self, window):
         # red rect
-        pygame.draw.rect(window, (255, 0, 0), (self.x - 250, 20, 500, 20))
+        pygame.draw.rect(window, (255, 0, 0), (self.x - 250, 680, 500, 20))
 
         # green rect
-        pygame.draw.rect(window, (0, 255, 0), (self.x - 250, 20, 500, 20))
+        pygame.draw.rect(window, (0, 255, 0), (self.x - 250, 680, 500 * (self.hp / self.max_hp), 20))
 
