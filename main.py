@@ -55,11 +55,11 @@ def edit_phase(mystate, clock):
     FPS = 60
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
-    gold = mystate.currentbank.gold
+    tiny_font = pygame.font.SysFont('arial', 20)
     defender_cost = 100
     reverse = True
 
-    menu_defender = Defender(WIDTH / 2 - 150, HEIGHT / 2 - 150)
+    menu_defender = Defender(WIDTH / 2 - 150 + 200, HEIGHT / 2 - 150)
     menu_defender.scale(300, 300)
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
@@ -70,17 +70,29 @@ def edit_phase(mystate, clock):
 
         # Creates text
         phase_label = main_font.render(f"Puchase Defenders", 1, white)  # Draws text (item, 1, color)
-        instructions_label = small_font.render(f"Press up to buy and space to continue", 1, white)
+        instructions_label = small_font.render(f"Press space to attack", 1, white)
         defender_count_label = small_font.render(f"Defender count: {mystate.getDefenderListSize()}", 1, white)
-        gold_label = small_font.render(f"Gold: {gold}", 1, white)
+        gold_label = small_font.render(f"Gold: {mystate.currentbank.gold}", 1, white)
+        buy_defender = tiny_font.render(f"Press ^ to buy defender for 100 gold", 1, white)
+        heal = tiny_font.render(f"Press > to heal 10 health for 75 gold", 1, white)
+        buy_hat = tiny_font.render(f"Press < to sell 10 health for 50 gold", 1, white)
+        sell_defender = tiny_font.render(f"Press v to sell defender for 100 gold", 1, white)
 
         WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 80))  # Draws the text
         WINDOW.blit(instructions_label, (WIDTH / 2 - instructions_label.get_width() / 2, 130))
         WINDOW.blit(defender_count_label, (WIDTH / 2 - defender_count_label.get_width() / 2, 600))
         WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 130, 80))
+        WINDOW.blit(buy_defender, (180, 230))
+        WINDOW.blit(sell_defender, (180, 280))
+        WINDOW.blit(heal, (180, 330))
+        WINDOW.blit(buy_hat, (180, 380))
 
+        # Shows a dragon on the menu screen
         menu_defender.draw(WINDOW, reverse, False)
         pygame.time.wait(100)
+
+        # shows castle health
+        mystate.currentcastle.draw(WINDOW)
 
         pygame.display.update()  # Refreshes the display
 
@@ -115,14 +127,30 @@ def edit_phase(mystate, clock):
         if keys[pygame.K_SPACE]:
             is_edit_phase = False
         if keys[pygame.K_UP]:
-            if gold - defender_cost >= 0:
+            if mystate.currentbank.gold - defender_cost >= 0:
                 mystate.defenderAdd(Defender(random_defender_x, random_defender_y, random_defender_atk, random_defender_range, random_defender_accuracy))
-                gold -= defender_cost
+                mystate.currentbank.gold -= defender_cost
                 pygame.time.wait(50)
         if keys[pygame.K_DOWN]:
             if mystate.defcount >= 1:
                 mystate.defenderRemove(mystate.getDefenders()[mystate.defcount - 1])
-                gold += defender_cost
+                mystate.currentbank.gold += defender_cost
+                pygame.time.wait(50)
+        if keys[pygame.K_RIGHT]:
+            if mystate.currentcastle.get_hp() <= 99:
+                if mystate.currentcastle.get_hp() + 10 > 100:
+                    mystate.currentcastle.hp = 100
+                    mystate.currentbank.gold -= 75
+                    pygame.time.wait(50)
+                else:
+                    mystate.currentcastle.hp += 10
+                    mystate.currentbank.gold -= 75
+                    pygame.time.wait(50)
+
+        if keys[pygame.K_LEFT]:
+            if mystate.currentcastle.get_hp() >= 11:
+                mystate.currentbank.gold += 50
+                mystate.currentcastle.hp -= 10
                 pygame.time.wait(50)
 
 
@@ -174,7 +202,7 @@ def attack_phase(mystate, clock):
                 mystate.currentbank.gaingold(-30)
             if not attacker.alive:
                 mystate.attackerRemove(attacker)
-                mystate.currentbank.gaingold(10)
+                mystate.currentbank.gaingold(20)
         for defender in mystate.defenderlist:
             defender.draw(WINDOW, reverse)
 
@@ -197,6 +225,9 @@ def attack_phase(mystate, clock):
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
 
+        if mystate.currentcastle.get_hp() <= 0:
+            game_end(mystate, clock)
+
         if mystate.enemycount <= 0:
             pygame.time.wait(1000)
             break
@@ -211,7 +242,7 @@ def stats_phase(mystate, clock):
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
-    gold_reward = random.randint(50, 80)
+    gold_reward = random.randint(100, 190)
 
     # increases level
     mystate.levelUp()
@@ -226,7 +257,7 @@ def stats_phase(mystate, clock):
         # Creates text
         phase_label = main_font.render(f"Your stats", 1, black)  # Draws text (item, 1, color)
         level_label = small_font.render(f"You gained {gold_reward} gold! Moving onto level {mystate.getlevel()}... "
-                                        f"Press space tp continue", 1, black)
+                                        f"Press space to continue", 1, black)
         gold_label = small_font.render(f"Gold: {mystate.currentbank.gold}", 1, white)
 
         WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
@@ -300,6 +331,7 @@ def main_menu():
                     pygame.quit()
                 else:
                     main()
+                    run = False
     pygame.quit()
 
 
