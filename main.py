@@ -18,6 +18,8 @@ pygame.display.set_caption("Swamphacks Game")
 # Menu BG
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images", "BG.png")), (WIDTH, HEIGHT))
 GAME_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "castle.JPEG")), (WIDTH, HEIGHT))
+EDIT_BG = pygame.transform.scale(pygame.image.load(os.path.join("images", "edit_bg.JPEG")), (WIDTH, HEIGHT))
+
 
 # colors
 white = (255, 255, 255)
@@ -58,12 +60,16 @@ def edit_phase(mystate, clock):
     small_font = pygame.font.SysFont('arial', 30)
     gold = mystate.currentbank.gold
     defender_cost = 100
+    reverse = True
+
+    menu_defender = Defender(WIDTH / 2 - 150, HEIGHT / 2 - 150)
+    menu_defender.scale(300, 300)
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
     def redraw_window():
         # BASE LAYER
         # Background must be drawn first so it is on the lowest level
-        WINDOW.fill((0, 0, 0))
+        WINDOW.blit(EDIT_BG, (0, 0))
 
         # Creates text
         phase_label = main_font.render(f"Puchase Defenders", 1, white)  # Draws text (item, 1, color)
@@ -71,10 +77,13 @@ def edit_phase(mystate, clock):
         defender_count_label = small_font.render(f"Defender count: {mystate.getDefenderListSize()}", 1, white)
         gold_label = small_font.render(f"Gold: {gold}", 1, white)
 
-        WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
-        WINDOW.blit(instructions_label, (WIDTH / 2 - instructions_label.get_width() / 2, 60))
-        WINDOW.blit(defender_count_label, (WIDTH / 2 - defender_count_label.get_width() / 2, 500))
-        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 20, 10))
+        WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 80))  # Draws the text
+        WINDOW.blit(instructions_label, (WIDTH / 2 - instructions_label.get_width() / 2, 130))
+        WINDOW.blit(defender_count_label, (WIDTH / 2 - defender_count_label.get_width() / 2, 600))
+        WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 130, 80))
+
+        menu_defender.draw(WINDOW, reverse, False)
+        pygame.time.wait(150)
 
         pygame.display.update()  # Refreshes the display
 
@@ -89,6 +98,8 @@ def edit_phase(mystate, clock):
         for event in pygame.event.get():  # Loops through all events
             if event.type == pygame.QUIT:  # If the player closes out, stops the game
                 quit()
+
+        reverse = not reverse  # for animation
 
         # Generates random values for defender's stats
         random_defender_x = random.randint(100, WIDTH - 100)
@@ -118,7 +129,6 @@ def edit_phase(mystate, clock):
                 pygame.time.wait(100)
 
 
-# FIXME fix attack phase to detect when to call stats_phase in main, handle dead attackers
 def attack_phase(mystate, clock):
     is_attack_phase = True
     FPS = 60  # Shows 60 frames per second
@@ -234,6 +244,7 @@ def stats_phase(mystate, clock):
         keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
         if keys[pygame.K_SPACE]:
             is_stats_phase = False
+            pygame.time.wait(50)
 
 
 def main_menu():
