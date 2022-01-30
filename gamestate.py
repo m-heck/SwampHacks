@@ -1,5 +1,4 @@
 # Game state class that controls the general functions of the player and game
-import os
 from castle import Castle
 from fighter import Attacker, Defender
 
