@@ -45,8 +45,10 @@ def main():
     # castle = Castle()
     # Call the castle object in gamestate by doing mystate.currentcastle
 
-    edit_phase(mystate, clock)
-    attack_phase(mystate, clock)
+    while True:  # Todo fix so it will stop when the game is lost
+        edit_phase(mystate, clock)
+        attack_phase(mystate, clock)
+        stats_phase(mystate, clock)
 
 
 def edit_phase(mystate, clock):
@@ -111,6 +113,7 @@ def edit_phase(mystate, clock):
                 pygame.time.wait(100)
 
 
+# FIXME fix attack phase to detect when to call stats_phase in main
 def attack_phase(mystate, clock):
     is_attack_phase = True
     FPS = 60  # Shows 60 frames per second
@@ -169,6 +172,47 @@ def attack_phase(mystate, clock):
         for defender in defenders:
             defender.cool_down_caller()
             defender.attack(attackers)
+
+
+def stats_phase(mystate, clock):
+    is_stats_phase = True
+    FPS = 60  # Shows 60 frames per second
+    main_font = pygame.font.SysFont('arial', 50)
+    small_font = pygame.font.SysFont('arial', 30)
+
+    # increases level
+    mystate.levelUp()
+    # todo increase gold amount
+
+    def redraw_window():
+        # BASE LAYER
+        # Background must be drawn first so it is on the lowest level
+        WINDOW.fill((0, 0, 0))  # anything that you want consistent in the game window should be added within the
+        # loop
+
+        # Creates text
+        phase_label = main_font.render(f"Your stats", 1, white)  # Draws text (item, 1, color)
+        level_label = small_font.render(f"Moving onto level {mystate.getlevel()}...", 1, black)
+        # todo add gold label
+
+        WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text
+        WINDOW.blit(level_label, (WIDTH / 2 - level_label.get_width() / 2, 60))
+
+        # DRAWS THE CASTLE
+        mystate.currentcastle.draw(WINDOW)
+
+        pygame.display.update()  # Refreshes the display
+
+    while is_stats_phase:
+        clock.tick(FPS)  # Going to tick the clock based on FPS value, keeps game consistent
+
+        # CALLS REDRAW METHOD
+        redraw_window()
+
+        # QUIT GAME
+        for event in pygame.event.get():  # Loops through all events
+            if event.type == pygame.QUIT:  # If the player closes out, stops the game
+                quit()
 
 
 def main_menu():
