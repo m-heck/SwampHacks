@@ -8,7 +8,7 @@ import os
 
 
 class Castle:
-    def __init__(self, x=1000, y=375, hp=100):
+    def __init__(self, x=637, y=358.5, hp=100):
         self.x = x
         self.y = y
         self.hp = hp
@@ -38,8 +38,8 @@ class Castle:
 
     def healthbar(self, window):
         # red rect
-        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 10, 10))
+        pygame.draw.rect(window, (255, 0, 0), (self.x - 250, 20, 500, 20))
 
         # green rect
-        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y, 10, 10))
+        pygame.draw.rect(window, (0, 255, 0), (self.x - 250, 20, 500, 20))
 
