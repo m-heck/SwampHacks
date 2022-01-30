@@ -118,12 +118,12 @@ def edit_phase(mystate, clock):
             if gold - defender_cost >= 0:
                 mystate.defenderAdd(Defender(random_defender_x, random_defender_y, random_defender_atk, random_defender_range, random_defender_accuracy))
                 gold -= defender_cost
-                pygame.time.wait(100)
+                pygame.time.wait(50)
         if keys[pygame.K_DOWN]:
             if mystate.defcount >= 1:
                 mystate.defenderRemove(mystate.getDefenders()[mystate.defcount - 1])
                 gold += defender_cost
-                pygame.time.wait(100)
+                pygame.time.wait(50)
 
 
 def attack_phase(mystate, clock):
@@ -136,7 +136,15 @@ def attack_phase(mystate, clock):
     attackers = mystate.getAttackers()
     defenders = mystate.getDefenders()
 
-    mystate.attackerAdd(Attacker())
+    # Generates random values for attackers
+    num_attackers = round(random.randrange(100, 300) / 100 * mystate.getlevel())
+
+    for i in range(num_attackers):
+        rand_attacker_x = random.randint(-1000, -100)
+        rand_attacker_y = random.randint(250, 550)
+        rand_attacker_hp = random.randint(70, 90)
+        rand_attacker_movedelay = random.randint(100, 300)
+        mystate.attackerAdd(Attacker(rand_attacker_x, rand_attacker_y, rand_attacker_hp, rand_attacker_movedelay))
 
     # =========== METHOD FOR DISPLAYING THINGS TO THE SCREEN ===========
     def redraw_window():  # We can only access it within the main, but it has access to locals
@@ -149,10 +157,12 @@ def attack_phase(mystate, clock):
         phase_label = main_font.render(f"Attack phase", 1, white)  # Draws text (item, 1, color)
         level_label = small_font.render(f"Level: {mystate.getlevel()}", 1, black)
         gold_label = small_font.render(f"Gold: {mystate.currentbank.gold}", 1, white)
+        enemies_left = small_font.render(f"Enemies left: {mystate.enemycount}", 1, white)
 
         WINDOW.blit(phase_label, (10, 10))  # Draws the text
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 20, 10))
         WINDOW.blit(gold_label, (WIDTH - gold_label.get_width() - 20, HEIGHT - gold_label.get_height() - 20))
+        WINDOW.blit(enemies_left, (10, HEIGHT - enemies_left.get_height() - 20))
 
         # DRAWS THE FIGHTERS
         for attacker in mystate.getAttackers():
@@ -164,7 +174,7 @@ def attack_phase(mystate, clock):
                 mystate.currentbank.gaingold(-30)
             if not attacker.alive:
                 mystate.attackerRemove(attacker)
-                mystate.currentbank.gaingold(20)
+                mystate.currentbank.gaingold(10)
         for defender in mystate.defenderlist:
             defender.draw(WINDOW, reverse)
 
@@ -201,7 +211,7 @@ def stats_phase(mystate, clock):
     FPS = 60  # Shows 60 frames per second
     main_font = pygame.font.SysFont('arial', 50)
     small_font = pygame.font.SysFont('arial', 30)
-    gold_reward = 200
+    gold_reward = random.randint(50, 80)
 
     # increases level
     mystate.levelUp()
@@ -215,8 +225,8 @@ def stats_phase(mystate, clock):
 
         # Creates text
         phase_label = main_font.render(f"Your stats", 1, black)  # Draws text (item, 1, color)
-        level_label = small_font.render(f"You gained {gold_reward} gold! Moving onto level {mystate.getlevel()}...",
-                                        1,                            black)
+        level_label = small_font.render(f"You gained {gold_reward} gold! Moving onto level {mystate.getlevel()}... "
+                                        f"Press space tp continue", 1, black)
         gold_label = small_font.render(f"Gold: {mystate.currentbank.gold}", 1, white)
 
         WINDOW.blit(phase_label, (WIDTH / 2 - phase_label.get_width() / 2, 10))  # Draws the text

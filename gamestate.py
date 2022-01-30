@@ -13,16 +13,16 @@ class State(Enum):
 
 class Bank:
     def __init__(self):
-        self.gold = 300
+        self.gold = 200
         self.round = 1
         self.killed = 0
     def get_gold(self):
         return self.gold
-    def gaingold(self,goldgained):
-        self.gold += goldgained;
+    def gaingold(self, goldgained):
+        self.gold += goldgained
     # gives player gold at the end of every round
     def round_end(self):
-        self.gold += (round * 80) + (5 * killed)
+        self.gold += round * 80
         self.round += 1
         self.killed = 0
 
