@@ -29,25 +29,27 @@ black = (0, 0, 0)
 def main():
     # VARIABLES
     run = True  # Dictates whether the while loop will run or not
+    play_again = True
+    high_score = 0
 
-    # Initializes Gamestate
-    mystate = Gamestate()
+    while play_again:
+        # Initializes Gamestate
+        mystate = Gamestate()
 
-    # CREATES FIGHTER ARRAYS
-    attackers = []
-    defenders = []
+        # CREATES FIGHTER ARRAYS
+        attackers = []
+        defenders = []
 
-    clock = pygame.time.Clock()  # Checks for events 60 times every second
+        clock = pygame.time.Clock()  # Checks for events 60 times every second
 
-    # SETS THE ATTACKERS AND DEFENDERS LISTED TO THE GAMESTATE
-    mystate.setlists(defenders, attackers)
+        # SETS THE ATTACKERS AND DEFENDERS LISTED TO THE GAMESTATE
+        mystate.setlists(defenders, attackers)
 
-    while mystate.currentcastle.get_hp() >= 0:
-        edit_phase(mystate, clock)
-        attack_phase(mystate, clock)
-        stats_phase(mystate, clock)
-
-    game_end(mystate, clock)
+        while mystate.currentcastle.get_hp() >= 0:
+            edit_phase(mystate, clock)
+            attack_phase(mystate, clock)
+            stats_phase(mystate, clock)
+        play_again = game_end(mystate, clock)
 
 
 def edit_phase(mystate, clock):
@@ -285,13 +287,44 @@ def stats_phase(mystate, clock):
             is_stats_phase = False
             pygame.time.wait(50)
 
-def game_end(mystate, clock):
-    if mystate.gameLoss() == True:
-        end_font = pygame.font.SysFont('helvetica bold', 100)
-        WINDOW.blit(END_BG, (0, 0))
-        endtitle = end_font.render("YOU LOSE", 1, red)
-        
 
+def game_end(mystate, clock):
+    high_score = 0
+    if mystate.getlevel() > high_score:
+            high_score = mystate.getlevel()
+
+    end_font = pygame.font.SysFont('helvetica bold', 100)
+    FPS = 60
+
+    def redraw_window():
+        WINDOW.blit(END_BG, (0, 0))
+        end_title = end_font.render("YOU LOSE", 1, red)
+        end_score = end_font.render(f"Your Highest Level Reached: {high_score}!")
+        end_replay = end_font.render("Press Space to Replay", 1, white)
+
+
+        WINDOW.blit(end_title, WIDTH / 2 - end_title.get_width() / 2, 10)
+        WINDOW.blit(end_score, WIDTH / 2 - end_score.get_width() / 2, 60)
+        WINDOW.blit(end_replay, WIDTH / 2 - end_replay.get_width() / 2, 110)
+
+
+    while is_end_phase:
+        clock.tick(FPS)  # Going to tick the clock based on FPS value, keeps game consistent
+
+        # CALLS REDRAW METHOD
+        redraw_window()
+
+        # QUIT GAME
+        for event in pygame.event.get():  # Loops through all events
+            if event.type == pygame.QUIT:  # If the player closes out, stops the game
+                quit()
+
+        keys = pygame.key.get_pressed()  # Returns a dictionary with all the keys pressed
+        if keys[pygame.K_SPACE]:
+            is_end_phase = False
+            pygame.time.wait(50)
+            return True
+    return False
 
 
 
